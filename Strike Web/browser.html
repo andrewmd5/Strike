@@ -1,0 +1,95 @@
+<html>
+
+<head>
+    <script>
+        if ( localStorage.validLogin === "false") {
+
+            window.location = "index.html";
+        }
+    </script>
+    <title>Strike - Browser</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport"
+          content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0, maximum-scale=1, user-scalable=no, minimal-ui">
+    <meta name="format-detection" content="telephone=no"/>
+
+    <style type="text/css" media="screen">
+        @import "iui/iui.css";
+
+    </style>
+
+    <script type="text/javascript">
+        var filter = ["zip", "rar", "7zip", "7z", "sfv", "md5", "nfo", "txt", "dll", "tmp", "exe", "BPres", "sfk", "ini", "cer", "jar", "php", "apk", "lnk", "css", "dat", "dat2", "log", "vsix", "msi", "cab",
+            "fxml", "java", "js", "class", "html", "iso"];
+
+        function arrayContains(needle, arrhaystack) {
+
+            return (arrhaystack.indexOf(needle) > -1);
+        }
+
+        function isPartFile(extension) {
+            var re = /^r\d{2,3}$/;
+            if (extension.match(re)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        function rebuildmenu() {
+            holder = document.getElementById('placeholder').childNodes[0];
+            for (var x = 0; x < holder.rows.length; x++) {
+                var c = holder.rows[x].cells[0];
+                var title = c.childNodes[0].innerHTML;
+                var fileExtension = title.substring(title.lastIndexOf(".") + 1, title.length);
+
+                if (arrayContains(fileExtension.toLowerCase(), filter)) {
+                    continue;
+                }
+                if (isPartFile(fileExtension)) {
+                    continue;
+                }
+                addEntry(c.childNodes[0].innerHTML, c.childNodes[0].href);
+            }
+
+            window.holder = holder;
+        }
+
+        function addEntry(title, url) {
+            var fileExtension = title.substring(title.lastIndexOf(".") + 1, title.length);
+            var h = document.getElementById('home');
+
+            h.innerHTML += "<li><a href=\"" + url + "\" target=\"_self\">" + title + "</a></li>";
+        }
+
+        addEventListener("load", rebuildmenu, false);
+    </script>
+
+    <script type="application/x-javascript" src="iui/iui.js"></script>
+
+    <script type="text/javascript">
+        pageHistory.push({
+            title: "back";
+        })
+    </script>
+</head>
+
+<body>
+<div class="toolbar">
+    <a class="backButton" href="/" target="_self">Home</a>
+
+    <h1 id="pageTitle">[currentdir]</h1>
+    <a href="remote.html" target="_self" class="button">Home</a>
+</div>
+<ul id="home" title="[currentdir]" selected="true">
+</ul>
+
+<table id="placeholder">[currentfiles]</table>
+</body>
+
+</html>

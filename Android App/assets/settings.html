@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+	 <script type="text/javascript" src="js/jquery-1.11.0.js"></script> 
+	  <script type="text/javascript" src="js/bootstrap.min.js"></script>
+	 <script type="text/javascript" src="js/bootstrap-dialog.min.js"></script>
+    <link href="style/bootstrap.css" rel="stylesheet">
+    <link href="style/style.css" rel="stylesheet">
+	<link href="style/bootstrap-dialog.min.css" rel="stylesheet" type="text/css" />
+
+    <style>
+
+        /* bootstrap 3 helpers */
+
+        .navbar-form input, .form-inline input {
+            width:auto;
+        }
+
+        header {
+            height:270px;
+        }
+
+        @media (min-width: 979px) {
+            #sidebar.affix-top {
+                position: static;
+                margin-top:25px;
+                width:228px;
+            }
+
+            #sidebar.affix {
+                position: fixed;
+                top:25px;
+                width:228px;
+            }
+        }
+
+        .affix,.affix-top {
+            position:static;
+        }
+		.loader {
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+	background: url('img/wavy.gif') 50% 50% no-repeat rgb(249,249,249);
+}
+    </style>
+</head>
+<body>
+<div class="container">
+<div style="display:none" class="loader"></div>
+    <div class="row">
+      
+        <div class="col-md-9">
+		 <div id="error1" style="display:none" class="alert alert-danger alert-error">
+        
+        <strong>Error!</strong> Your MPC server is not resolving.
+		</div>
+		
+            <h2>MPC IP and Port</h2>
+			
+           <input class="form-control" type="text" id="mpc" placeholder="http://media.server.net:3542" required>
+            <hr class="col-md-12">
+			<div id="error2" style="display:none" class="alert alert-danger alert-error">
+        
+			<strong>Error!</strong> Your Deluge server is not resolving.
+			</div>
+            <h2>Deluge IP and Port</h2>
+			
+             <input class="form-control" type="text" id="deluge" placeholder="http://media.server.net:3542" required>
+            </p><hr class="col-md-12">
+
+            <h2>Diagnostics</h2>
+            <p>Run various diagnostics to ensure your settings are correct.</p>
+           <button id="test" 
+                                            class="col-lg-3 col-md-3 col-sm-3 col-xs-12 btn btn-primary" contenteditable="false">Run Network Diagnostic</button>
+			
+			 <h2>Save Settings</h2>
+            <button id="save" type="submit"
+                                            class="col-lg-3 col-md-3 col-sm-3 col-xs-12 btn btn-success" contenteditable="false">Save</button>
+        </div>
+        <div class="span9"></div>
+    </div>
+</div>
+
+ <script type="text/javascript" src="js/settings.js"></script> 
+</body>
+</html>

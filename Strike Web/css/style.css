@@ -1,0 +1,250 @@
+* {
+    font-family: 'Open Sans', serif;
+}
+
+body {
+    background-color: #171717;
+    color: #999;
+}
+
+.jumbotron {
+    background-color: #b9090b;
+    text-align: center;
+    margin-bottom: 0;
+}
+
+.input {
+    background-color: #1D1D1D;
+    padding: 25px;
+    color: #999999;
+}
+
+.rating {
+    margin-top: 30px;
+}
+
+button.btn-roll, button.btn-netflix {
+    background-color: #b9090b;
+    color: #fff;
+    border: none;
+    padding: 13px 25px 13px 25px;
+    font-size: 18px;
+}
+
+button.btn-roll:hover, button.btn-netflix:hover {
+    background-color: #aa090b;
+    color: #e1e1e1;
+}
+
+button.btn-netflix {
+    margin-top: 10px;
+}
+
+.checkbox {
+    margin-top: 15px;
+}
+
+input[type=checkbox] {
+    background-color: red;
+    color: red;
+}
+
+.checkbox label {
+    font-weight: 600;
+}
+
+.output {
+    padding: 50px 0 50px 0;
+}
+
+.movie-poster {
+    width: 100%;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+}
+
+.output h1 {
+    margin-top: 0;
+    font-weight: 700;
+    font-size: 30px;
+}
+
+#sponsor_container {
+    margin-bottom: 15px;
+}
+
+.form-control {
+    background-color: #171717;
+    color: #999;
+    border: none;
+}
+
+@media (max-width: 768px) {
+    button, .btn-group, img {
+        width: 100%;
+    }
+}
+
+@media (min-width: 768px) {
+    .container {
+        max-width: 730px;
+    }
+
+    .jumbotron {
+        padding: 45px;
+    }
+}
+
+.container-narrow > hr {
+    margin: 30px 0;
+}
+
+.btn-default {
+    color: #999999;
+    background-color: #171717;
+    border: none;
+    padding: 15px 25px 15px 25px;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.btn-default:hover, .btn-default:focus, .btn-default:active, .btn-default.active, .open .dropdown-toggle.btn-default {
+    color: #999999;
+    background-color: #171717;
+    border: none;
+}
+
+.dropdown-menu {
+    font-weight: 600;
+    color: #999;
+    background-color: #171717;
+    background-clip: padding-box;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, .15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+}
+
+.dropdown-menu > li > a {
+    display: block;
+    padding: 10px 20px;
+    clear: both;
+    font-weight: 600;
+    line-height: 1.42857143;
+    color: #999;
+    white-space: nowrap;
+}
+
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+    color: #999;
+    text-decoration: none;
+    background-color: #000;
+}
+
+.dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus {
+    color: #fff;
+    text-decoration: none;
+    background-color: #428bca;
+    outline: 0;
+}
+
+.dropdown-menu > .disabled > a, .dropdown-menu > .disabled > a:hover, .dropdown-menu > .disabled > a:focus {
+    color: #999;
+}
+
+.priceRangeInfo {
+    position: relative;
+    height: 30px;
+    margin-top: 60px;
+}
+
+.priceRangeInfo label {
+    position: absolute;
+    top: -30px;
+    left: 10px;
+}
+
+.priceRangeInfo #buying_slider_min {
+    top: -40px;
+    position: absolute;
+    left: 100px;
+}
+
+.priceRangeInfo #buying_slider_max {
+    top: -40px;
+    position: absolute;
+    left: 170px;
+}
+
+.priceRangeInfo div.ui-slider {
+    position: absolute;
+}
+
+.priceRangeInfo div:last-child {
+    position: absolute;
+    left: 0px;
+}
+
+#sponsor_container2 {
+    margin-top: 15px;
+}
+
+.spinner {
+    margin: 100px auto 0;
+    width: 70px;
+    text-align: center;
+}
+
+.spinner > div {
+    width: 18px;
+    height: 18px;
+    background-color: #999;
+    border-radius: 100%;
+    display: inline-block;
+    -webkit-animation: bouncedelay 1.4s infinite ease-in-out;
+    animation: bouncedelay 1.4s infinite ease-in-out;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+.spinner .bounce1 {
+    -webkit-animation-delay: -0.32s;
+    animation-delay: -0.32s;
+}
+
+.spinner .bounce2 {
+    -webkit-animation-delay: -0.16s;
+    animation-delay: -0.16s;
+}
+
+.flash:hover, .flash-global:hover {
+    border-color: #5f9fc6;
+}
+
+.flash {
+    padding: 15px;
+    border-radius: 3px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+@-webkit-keyframes bouncedelay {
+    0%, 80%, 100% {
+        -webkit-transform: scale(0.0)
+    }
+    40% {
+        -webkit-transform: scale(1.0)
+    }
+}
+
+@keyframes bouncedelay {
+    0%, 80%, 100% {
+        transform: scale(0.0);
+        -webkit-transform: scale(0.0);
+    }
+    40% {
+        transform: scale(1.0);
+        -webkit-transform: scale(1.0);
+    }
+}

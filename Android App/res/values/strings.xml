@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Strike</string>
+    <string name="title_section1">About</string>
+    <string name="title_section2">Settings</string>
+    <string name="title_section3">Remote Control</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_example"> Reload</string>
+    <string name="action_settings">Settings</string>
+
+</resources>
