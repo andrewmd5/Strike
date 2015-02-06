@@ -1,5 +1,6 @@
-# Strikehttps://github.com/Codeusa/Strike
-A bunch of preconfigured software endpoints for a sweet home media server.
+# Strike
+
+[![Alt text for your video](http://img.youtube.com/vi/ZrRkTYSCs-M/0.jpg)](https://www.youtube.com/watch?v=ZrRkTYSCs-M)
 
 # TODO
 
