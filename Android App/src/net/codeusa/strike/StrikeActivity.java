@@ -1,22 +1,15 @@
 package net.codeusa.strike;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.concurrent.ExecutionException;
-
+import net.codeusa.strike.js.JSEngine;
+import net.codeusa.strike.settings.Settings;
+import net.codeusa.strike.utils.Utils;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.os.AsyncTask;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -24,7 +17,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,10 +27,11 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-// “Always code as if the guy who ends up maintaining your 
+// “Always code as if the guy who ends up maintaining your
 //code will be a violent psychopath who knows where you live.” - Words I did not live by
-public class MainActivity extends ActionBarActivity implements
-NavigationDrawerFragment.NavigationDrawerCallbacks {
+//Created by Andrew Sampson
+public class StrikeActivity extends ActionBarActivity implements
+		NavigationDrawerFragment.NavigationDrawerCallbacks {
 
 	/**
 	 * Fragment managing the behaviors, interactions and presentation of the
@@ -52,11 +45,9 @@ NavigationDrawerFragment.NavigationDrawerCallbacks {
 	 */
 	private CharSequence mTitle;
 	private WebView globalView;
-	private static String MPC_URL = "";
-	private static String DELUGE_URL = "";
-	private static boolean checkingStatus = false;
+
 	// private ProgressDialog progressDialog;
-	private static MainActivity activity;
+	public static StrikeActivity activity;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
@@ -71,28 +62,7 @@ NavigationDrawerFragment.NavigationDrawerCallbacks {
 		this.mNavigationDrawerFragment.setUp(R.id.navigation_drawer,
 				(DrawerLayout) findViewById(R.id.drawer_layout));
 		activity = this;
-
-		try {
-			final FileInputStream fis = this.getApplicationContext()
-					.openFileInput("strikeconfig.txt");
-			final InputStreamReader isr = new InputStreamReader(fis, "UTF-8");
-			final BufferedReader bufferedReader = new BufferedReader(isr);
-			final StringBuilder sb = new StringBuilder();
-			String line;
-			while ((line = bufferedReader.readLine()) != null) {
-				final String[] urls = line.split(",");
-				MPC_URL = urls[0];
-				DELUGE_URL = urls[1];
-			}
-
-		} catch (final FileNotFoundException e) {
-			MPC_URL = "file:///android_asset/settings.html";
-			DELUGE_URL = "file:///android_asset/settings.html";
-		} catch (final UnsupportedEncodingException e) {
-
-		} catch (final IOException e) {
-
-		}
+		Utils.readSettings(getApplicationContext());
 
 	}
 
@@ -101,9 +71,9 @@ NavigationDrawerFragment.NavigationDrawerCallbacks {
 		// update the main content by replacing fragments
 		final FragmentManager fragmentManager = getSupportFragmentManager();
 		fragmentManager
-		.beginTransaction()
-		.replace(R.id.container,
-				RemoteControlFragment.newInstance(position + 1))
+				.beginTransaction()
+				.replace(R.id.container,
+						RemoteControlFragment.newInstance(position + 1))
 				.commit();
 
 	}
@@ -122,6 +92,7 @@ NavigationDrawerFragment.NavigationDrawerCallbacks {
 		}
 	}
 
+	@SuppressLint("SetJavaScriptEnabled")
 	public static void loadView(final WebView remoteView) {
 		activity.globalView = remoteView;
 
@@ -137,6 +108,7 @@ NavigationDrawerFragment.NavigationDrawerCallbacks {
 		remoteView.getSettings().setDatabaseEnabled(true);
 		remoteView.setWebChromeClient(new WebChromeClient());
 		remoteView.getSettings().setDomStorageEnabled(true);
+
 		remoteView.getSettings().setJavaScriptEnabled(true);
 		remoteView.getSettings().setUserAgentString("StrikeDroid");
 		remoteView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
@@ -182,57 +154,18 @@ NavigationDrawerFragment.NavigationDrawerCallbacks {
 			@Override
 			public boolean shouldOverrideUrlLoading(final WebView view,
 					final String url) {
-				if (url.contains(MPC_URL) || url.contains(DELUGE_URL)) {
+				if (url.contains(Settings.getMPC_URL())
+						|| url.contains(Settings.getDELUGE_URL())) {
 					view.loadUrl(url);
 					return true;
-				} else if (url.contains("resolve")) {
-					final String[] domains = url.substring(
-							url.lastIndexOf("?") + 1).split(",");
-					final byte[] mpcData = Base64.decode(domains[0],
-							Base64.DEFAULT);
-					String mpc = null;
-					try {
-						mpc = new String(mpcData, "UTF-8");
-					} catch (final UnsupportedEncodingException e) {
-						e.printStackTrace();
-					}
-					final byte[] delugeData = Base64.decode(domains[1],
-							Base64.DEFAULT);
-					String deluge = null;
-					try {
-						deluge = new String(delugeData, "UTF-8");
-					} catch (final UnsupportedEncodingException e) {
-						e.printStackTrace();
-					}
-
-					final Internet internet = activity.new Internet();
-					// Log.d("YourTag",mpc);
-					String newurl = "";
-					try {
-						if (checkingStatus == true) {
-
-							view.loadUrl("file:///android_asset/settings.html");
-
-							return false;
-						}
-						checkingStatus = true;
-						newurl = internet.execute(mpc, deluge).get();
-					} catch (final InterruptedException e) {
-						newurl = String
-								.format("file:///android_asset/settings.html?mpc=%s&deluge=%s",
-										"false", "false");
-					} catch (final ExecutionException e) {
-
-						newurl = String
-								.format("file:///android_asset/settings.html?mpc=%s&deluge=%s",
-										"false", "false");
-					}
-
-					view.loadUrl(newurl);
-					checkingStatus = false;
-					return false;
-				} else if (url.contains("twitter")) {
-
+				} else if (url.contains("andrew.im")) {
+				
+					view.getContext().startActivity(
+							new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+					return true;
+				} else if (url.contains("github")) {
+					view.getContext().startActivity(
+							new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
 					return true;
 				} else if (url.contains("facebook")) {
 
@@ -245,67 +178,16 @@ NavigationDrawerFragment.NavigationDrawerCallbacks {
 		});
 
 		// The URL that webview is loading
+		final JSEngine jsEngine = new JSEngine();
+		remoteView.addJavascriptInterface(jsEngine, "strike");
 		remoteView.getSettings().setDomStorageEnabled(true);
 		remoteView.loadUrl("file:///android_asset/landing.html");
-	}
 
-	private class Internet extends AsyncTask<String, Void, String> {
-
-		@SuppressLint("DefaultLocale")
-		@Override
-		protected String doInBackground(final String[] params) {
-			// make sure params have http
-			final boolean canReachMPC = ping(params[0].toLowerCase());
-
-			final boolean canReachDeluge = ping(params[1].toLowerCase());
-			if ((canReachMPC == true) && (canReachDeluge == true)) {
-				MPC_URL = params[0].toLowerCase();
-				DELUGE_URL = params[1].toLowerCase();
-				final String data = MPC_URL + "," + DELUGE_URL;
-				final String filename = "strikeconfig.txt";
-
-				FileOutputStream outputStream;
-
-				try {
-					outputStream = openFileOutput(filename,
-							Context.MODE_PRIVATE);
-					outputStream.write(data.getBytes());
-					outputStream.close();
-				} catch (final Exception e) {
-					e.printStackTrace();
-				}
-
-			}
-			return String.format(
-					"file:///android_asset/settings.html?mpc=%s&deluge=%s",
-					canReachMPC == true ? "true" : false,
-					canReachDeluge == true ? "true" : false);
-		}
-
-		protected boolean ping(final String url) {
-			try {
-				HttpURLConnection.setFollowRedirects(false);
-				// note : you may also need
-				// HttpURLConnection.setInstanceFollowRedirects(false)
-				final HttpURLConnection con = (HttpURLConnection) new URL(url)
-						.openConnection();
-				con.setRequestMethod("HEAD");
-				return con.getResponseCode() == HttpURLConnection.HTTP_OK;
-			} catch (final Exception e) {
-				return false;
-
-			}
-		}
-
-		@Override
-		protected void onPostExecute(final String message) {
-
-		}
 	}
 
 	public void restoreActionBar() {
 		final ActionBar actionBar = getSupportActionBar();
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+		// actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 		actionBar.setDisplayShowTitleEnabled(true);
 		actionBar.setTitle(this.mTitle);
 
@@ -318,7 +200,7 @@ NavigationDrawerFragment.NavigationDrawerCallbacks {
 			final String title = sb.toString();
 			switch (title) {
 			case "Remote":
-				this.globalView.loadUrl(MPC_URL);
+				this.globalView.loadUrl(Settings.getMPC_URL());
 				break;
 			case "Settings":
 				this.globalView.loadUrl("file:///android_asset/settings.html");
@@ -422,7 +304,7 @@ NavigationDrawerFragment.NavigationDrawerCallbacks {
 
 			if (savedInstanceState != null) {
 				((WebView) rootView.findViewById(R.id.webview))
-						.restoreState(savedInstanceState);
+				.restoreState(savedInstanceState);
 			}
 
 			final WebView webView = (WebView) rootView
@@ -434,8 +316,8 @@ NavigationDrawerFragment.NavigationDrawerCallbacks {
 		@Override
 		public void onAttach(final Activity activity) {
 			super.onAttach(activity);
-			((MainActivity) activity).onSectionAttached(getArguments().getInt(
-					ARG_SECTION_NUMBER));
+			((StrikeActivity) activity).onSectionAttached(getArguments()
+					.getInt(ARG_SECTION_NUMBER));
 
 		}
 	}

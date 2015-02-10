@@ -1,6 +1,6 @@
-window.isValidURL = (function() {// wrapped in self calling function to prevent global pollution
+window.isValidURL = (function () {// wrapped in self calling function to prevent global pollution
 
-     //URL pattern based on rfc1738 and rfc3986
+    //URL pattern based on rfc1738 and rfc3986
     var rg_pctEncoded = "%[0-9a-fA-F]{2}";
     var rg_protocol = "(http|https):\\/\\/";
 
@@ -24,7 +24,7 @@ window.isValidURL = (function() {// wrapped in self calling function to prevent 
     var rg_query = "\\?" + "([" + rg_pchar + "/?]|" + rg_pctEncoded + ")*";
     var rg_fragment = "\\#" + "([" + rg_pchar + "/?]|" + rg_pctEncoded + ")*";
 
-    var rgHttpUrl = new RegExp( 
+    var rgHttpUrl = new RegExp(
         "^"
         + rg_protocol
         + "(" + rg_userinfo + ")?"
@@ -60,86 +60,85 @@ function isBlank(str) {
 }
 
 
-function save() {
-	var mpcserver = getValue("mpc");
-	var delugeserver = getValue("deluge");
-	if (isBlank(mpcserver)) {
-		BootstrapDialog.alert('Please enter a host for MPC');
-		return false;
-	}
-	
-	if (isBlank(delugeserver)) {
-		BootstrapDialog.alert('Please enter a host for Deluge');
-		return false;
-	}
-	
-	if (!window.isValidURL(mpcserver)) {
-		BootstrapDialog.alert('Please enter a valid URL for MPC');
-		return false;
-	}
-	
-	if (!window.isValidURL(delugeserver)) {
-		BootstrapDialog.alert('Please enter a valid URL for Deluge');
-		return false;
-	}
+function save(clicked) { //code smell 
+    var mpcserver = getValue("mpc");
+    var delugeserver = getValue("deluge");
+    var errors = false;
+    if (isBlank(mpcserver)) {
+        BootstrapDialog.alert('Please enter a host for MPC');
+        return false;
+    }
 
-	localStorage.mpc = btoa(mpcserver);
+    if (isBlank(delugeserver)) {
+        BootstrapDialog.alert('Please enter a host for Deluge');
+        return false;
+    }
+
+    if (!window.isValidURL(mpcserver)) {
+        BootstrapDialog.alert('Please enter a valid URL for MPC');
+        return false;
+    }
+
+    if (!window.isValidURL(delugeserver)) {
+        BootstrapDialog.alert('Please enter a valid URL for Deluge');
+        return false;
+    }
+
+    $.get("http://netflixroulette.net/api/status/?url=" + encodeURIComponent(mpcserver), function (data) {
+
+        if (data.indexOf("false") > -1) {
+            errors = true;
+            sendError(1);
+        }
+
+    });
+
+    $.get("http://netflixroulette.net/api/status/?url=" + encodeURIComponent(delugeserver), function (data) {
+
+        if (data.indexOf("false") > -1) {
+            errors = true;
+            sendError(2);
+        }
+    });
+
+    if (errors === true) {
+        return false;
+    }
 	
-	localStorage.deluge = btoa(delugeserver);
-	
-	//$(".loader").fadeIn("slow");
-	
-	window.location = "http://strike.io/resolve/?" + localStorage.mpc + "," +  localStorage.deluge;
+    localStorage.mpc = btoa(mpcserver);
+    localStorage.deluge = btoa(delugeserver);
+	if (clicked === true) {
+		 location.reload();
+	} else {
+		BootstrapDialog.alert('Your settings are valid.');
+		window.strike.saveSettings(mpcserver + ',' + delugeserver);
+	}
+   
 }
 
 function sendError(type) {
 
-	$( "#error" + type ).fadeIn( "slow", function() {
-    // Animation complete
-  });
+    $("#error" + type).fadeIn("slow", function () {
+        // Animation complete
+    });
 }
 
-function check_available(ip){
-	
-}
 
-$("#save").click(function(e){
-	
-    save();
+$("#save").click(function (e) {
+
+    save(true);
 });
-$("#test").click(function(e){
-	
-    save();
-});
+
 
 function load() {
-	var errors = false;
-	var delugeActive = getParameterByName('deluge');
-var mpcActive = getParameterByName('mpc');
-if (mpcActive === "false") {
-	errors = true;
-	sendError(1);
-}
-if (delugeActive === "false") {
-	errors = true;
-	sendError(2);
-}
+    var errors = false;
 
-	var mpcurl = atob(localStorage.mpc);
-	 $('#mpc').val(mpcurl);
-	 var delugeurl = atob(localStorage.deluge);
-	  $('#deluge').val(delugeurl);
-	  
-	  if (errors === false) {
-		  BootstrapDialog.alert('Your current settings seem to be valid.');
-	  } 
-}
+    var mpcurl = atob(localStorage.mpc);
+    $('#mpc').val(mpcurl);
+    var delugeurl = atob(localStorage.deluge);
+    $('#deluge').val(delugeurl);
+    save(false);
 
-function getParameterByName(name) {
-    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-        results = regex.exec(location.search);
-    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
 load();
