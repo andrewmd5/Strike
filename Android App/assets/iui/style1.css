@@ -1,0 +1,14 @@
+input {
+    font-family: 'FontAwesome';
+}
+
+/* This is for the placeholder */
+
+.wrapper:before {
+    font-family: 'FontAwesome';
+    color: red;
+    position: absolute;
+    top: 0px;
+    left: -5px;
+    content: "\f007";
+}

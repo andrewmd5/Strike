@@ -1,97 +1,122 @@
 <!DOCTYPE html>
 <html>
-<head lang="en">
-    <meta charset="UTF-8">
-	
-  	 <script type="text/javascript" src="js/jquery-1.11.0.js"></script> 
-	  <script type="text/javascript" src="js/bootstrap.min.js"></script>
-	 <script type="text/javascript" src="js/bootstrap-dialog.min.js"></script>
-    <link href="style/bootstrap.css" rel="stylesheet">
-    <link href="style/style.css" rel="stylesheet">
-	<link href="style/bootstrap-dialog.min.css" rel="stylesheet" type="text/css" />
-    <title></title>
-    <style>
-   /**
- * parallax.css
- * @Author Original @msurguy -> http://bootsnipp.com/snippets/featured/parallax-login-form
- * @Reworked By @kaptenn_com 
- * @package PARALLAX LOGIN.
- */
-    
-    body {
-        background-color: #444;
-        background: url("img/stike.jpg");
-        
-    }
-    .form-signin input[type="text"] {
-        margin-bottom: 5px;
-        border-bottom-left-radius: 0;
-        border-bottom-right-radius: 0;
-    }
-    .form-signin input[type="password"] {
-        margin-bottom: 10px;
-        border-top-left-radius: 0;
-        border-top-right-radius: 0;
-    }
-    .form-signin .form-control {
-        position: relative;
-        font-size: 16px;
-        font-family: 'Open Sans', Arial, Helvetica, sans-serif;
-        height: auto;
-        padding: 10px;
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
-    }
-    .vertical-offset-100 {
-        padding-top: 100px;
-    }
-    .img-responsive {
-    display: block;
-    max-width: 100%;
-    height: auto;
-    margin: auto;
-    }
-    .panel {
-	position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    margin-bottom: 20px;
-    background-color: rgba(255, 255, 255, 0.75);
-    border: 1px solid transparent;
-    border-radius: 4px;
-    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
-    box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
-    }
+    <head lang="en">
+        <title>Strike - About</title>
+		<script src="js/jquery-1.11.0.js"></script>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="viewport"
+              content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0, maximum-scale=1, user-scalable=no, minimal-ui">
+        <meta name="format-detection" content="telephone=no"/>
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <!-- Bootstrap Core JavaScript -->
 
-    </style>
+        <script src="js/auth.js"></script>
 
-</head>
-<body>
-            <div class="container">
-                <div class="row vertical-offset-100">
-                    <div class="col-md-4 col-md-offset-4">
-                        <div class="panel">
-                            <div class="panel-heading">                                
-                                <div class="row-fluid user-row">
-                                    <img src="img/about_img.png" class="img-responsive"/>
-									
-											<center><h2><p>
-											Thank you for testing Strike 1.0</p></h2>
-											<br>
-											Its still broken and awful
-											<br>
-											<p>You can visit my <a title="Blog" href="http://andrew.im">blog</a> or <a title="Github" href="https://github.com/Codeusa/Strike">contribute</a>
-											
-                                </div>
-                            </div>
-                            
+        <!-- Bootstrap Core CSS -->
+        <link href="css/bootstrap.css" rel="stylesheet">
+        <link href="css/style.css" rel="stylesheet">
+
+
+        <!-- Custom CSS -->
+        <link href="css/simple-sidebar.css" rel="stylesheet">
+
+        <!-- Google font -->
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+
+        <!-- Awesome font -->
+        <link href='css/font-awesome.min.css' rel='stylesheet' type='text/css'>
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+    </head>
+    <body>
+        <div id="wrapper">
+
+            <!-- Sidebar -->
+            <div id="sidebar-wrapper">
+                <ul class="sidebar-nav">
+                    <li class="sidebar-brand">
+                        <a href="remote.html">
+                            <h1>Strike</h1>
+                        </a>
+                    </li>
+                    <li>
+                                 <a onclick="window.location='' + window.strike.getMPCServer(); return false;" href="#"><i class="fa fa-keyboard-o"></i>Remote Control</a>
+                    </li>
+                    <li>
+                        <a onclick="window.location='' + window.strike.getTorrentClient(); return false;" href="#"><i class="fa fa-magnet"></i>Torrents</a>
+                    </li>
+                    <li>
+                        <a href="player.html"><i class="fa fa-play-circle"></i>View Player</a>
+                    </li>
+                    <li>
+                        <a href="browser.html?path=C:%5CMedia#_home"><i class="fa fa-files-o"></i>File Browser</a>
+                    </li>
+                    <li>
+                        <a href="info.html"><i class="fa fa-info-circle"></i>Info</a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-heartbeat"></i>Server Health</a>
+                    </li>
+                    <li class="active">
+                        <a href="file:///android_asset/landing.html"><i class="fa fa-user"></i>About</a>
+                    </li>
+                    <li>
+                        <a href="file:///android_asset/settings.html"><i class="fa fa-cog"></i>Settings</a>
+                    </li>
+
+                </ul>
+            </div>
+            <!-- /#sidebar-wrapper -->
+
+            <!-- Page Content -->
+            <div id="page-content-wrapper">
+
+                <div class="container-fluid about">
+
+                    <!--  MOBILE HEADER -->
+                    <div class="visible-xs xs-header">
+                        <div class="menu-toggle">
+                            <a href="#menu-toggle" class="pull-left btn btn-info btn-lg"
+                               id="menu-toggle"><i class="fa fa-bars"></i>
+                            </a>
+                            <h1 class="pull-right">About</h1>
+                            <div class="clearfix"></div>
+                            <hr>
                         </div>
                     </div>
-                </div>
+
+                    <p><img src="img/logo2.png" alt="logo" class="about-logo"></p>
+                    <p>Strike 4.0</p>
+                    <hr>
+                    <p><strong>GitHub</strong>: <a href="https://github.com/Codeusa/Strike">Contribute</a></p>
+                    <p><strong>Blog</strong>: <a href="http://andrew.im/">Read</a></p>
+                    <hr>
+                    <p><strong>Support us</strong>:</p>
+                    <p>
+                        <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JJQGYGF7EW56U" class="btn btn-warning btn-lg col-sm-5 col-xs-12"><i class="fa fa-paypal"> </i> Donate on Paypal</a>
+                    </p>
             </div>
-        </body>
-         
+
+        </div>
+		
+		<script>
+    $("#menu-toggle").click(function (e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+</script>
+		
+    </body>
 </html>

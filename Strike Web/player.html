@@ -1,12 +1,7 @@
 <html>
 
 <head>
-    <script>
-        if ( localStorage.validLogin === "false") {
 
-            window.location = "index.html";
-        }
-    </script>
     <meta HTTP-EQUIV="content-type" CONTENT="text/html; charset=UTF-8">
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
@@ -20,6 +15,27 @@
     <!-- Custom CSS -->
     <link href="css/simple-sidebar.css" rel="stylesheet">
     <title>Strike - MPC Media Player</title>
+    
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+
+    <!-- Custom CSS -->
+    <link href="css/simple-sidebar.css" rel="stylesheet">
+
+    <!-- Google font -->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+
+    <!-- Awesome font -->
+    <link href='css/font-awesome.min.css' rel='stylesheet' type='text/css'>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
 
     <script language="JavaScript" type="text/JavaScript">
 
@@ -390,31 +406,51 @@
         <ul class="sidebar-nav">
             <li class="sidebar-brand">
                 <a href="remote.html">
-                    Control Panel
+                    <h1>Strike</h1>
                 </a>
             </li>
             <li>
-                <a href="remote.html">Player Controls</a>
+                <a href="remote.html"><i class="fa fa-keyboard-o"></i>Remote Control</a>
             </li>
             <li>
-                <a href="http://media.andrew.im:36265/">Torrents</a>
+                <a href="http://media.andrew.im:36265/"><i class="fa fa-magnet"></i>Torrents</a>
+            </li>
+            <li class="active">
+                <a href="player.html"><i class="fa fa-play-circle"></i>View Player</a>
             </li>
             <li>
-                <a href="player.html">View Player</a>
+                <a href="browser.html?path=C:%5CMedia#_home"><i class="fa fa-files-o"></i>File Browser</a>
             </li>
             <li>
-                <a href="browser.html?path=C:%5CMedia#_home">File Browser</a>
+                <a href="info.html"><i class="fa fa-info-circle"></i>Info</a>
             </li>
             <li>
-                <a href="info.html">Info</a>
+                <a href="#"><i class="fa fa-heartbeat"></i>Server Health</a>
             </li>
             <li>
-                <a href="#">Server Health</a>
+                <a href="about.html"><i class="fa fa-user"></i>About</a>
+            </li>
+            <li>
+                <a href="settings.html"><i class="fa fa-cog"></i>Settings</a>
             </li>
 
         </ul>
     </div>
-    <div align="center">
+    
+
+    <!--  MOBILE HEADER -->
+    <div align="center" class="container-fluid">
+        <div class="visible-xs xs-header">
+            <div class="menu-toggle">
+                <a href="#menu-toggle" class="pull-left btn btn-info btn-lg"
+                   id="menu-toggle"><i class="fa fa-bars"></i>
+                </a>
+                <h1 class="pull-right">View Player</h1>
+                <div class="clearfix"></div>
+                <hr>
+            </div>
+        </div>
+
 
         <table id="player" cellpadding="0" cellspacing="0">
             <tr>

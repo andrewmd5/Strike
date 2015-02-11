@@ -112,6 +112,7 @@ function save(clicked) { //code smell
 	} else {
 		BootstrapDialog.alert('Your settings are valid.');
 		window.strike.saveSettings(mpcserver + ',' + delugeserver);
+
 	}
    
 }

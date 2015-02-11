@@ -1,88 +1,138 @@
 <!DOCTYPE html>
 <html>
 <head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-	 <script type="text/javascript" src="js/jquery-1.11.0.js"></script> 
-	  <script type="text/javascript" src="js/bootstrap.min.js"></script>
-	 <script type="text/javascript" src="js/bootstrap-dialog.min.js"></script>
-    <link href="style/bootstrap.css" rel="stylesheet">
-    <link href="style/style.css" rel="stylesheet">
+    <title>Strike - Settings</title>
+	<script src="js/jquery-1.11.0.js"></script>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport"
+          content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0, maximum-scale=1, user-scalable=no, minimal-ui">
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Bootstrap Core JavaScript -->
+
+    <script src="js/auth.js"></script>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+	<script src="js/bootstrap.min.js"></script>
+		 <script type="text/javascript" src="js/bootstrap-dialog.min.js"></script>
 	<link href="style/bootstrap-dialog.min.css" rel="stylesheet" type="text/css" />
 
-    <style>
 
-        /* bootstrap 3 helpers */
 
-        .navbar-form input, .form-inline input {
-            width:auto;
-        }
+    <!-- Custom CSS -->
+    <link href="css/simple-sidebar.css" rel="stylesheet">
 
-        header {
-            height:270px;
-        }
+    <!-- Google font -->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
 
-        @media (min-width: 979px) {
-            #sidebar.affix-top {
-                position: static;
-                margin-top:25px;
-                width:228px;
-            }
+    <!-- Awesome font -->
+    <link href='css/font-awesome.min.css' rel='stylesheet' type='text/css'>
 
-            #sidebar.affix {
-                position: fixed;
-                top:25px;
-                width:228px;
-            }
-        }
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
 
-        .affix,.affix-top {
-            position:static;
-        }
-		.loader {
-	position: fixed;
-	left: 0px;
-	top: 0px;
-	width: 100%;
-	height: 100%;
-	z-index: 9999;
-	background: url('img/wavy.gif') 50% 50% no-repeat rgb(249,249,249);
-}
-    </style>
 </head>
 <body>
-<div class="container">
-<div style="display:none" class="loader"></div>
-    <div class="row">
-      
-        <div class="col-md-9">
-		 <div id="error1" style="display:none" class="alert alert-danger alert-error">
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="remote.html">
+                        <h1>Strike</h1>
+                    </a>
+                </li>
+                <li>
+                        <a onclick="window.location='' + window.strike.getMPCServer(); return false;" href="#"><i class="fa fa-keyboard-o"></i>Remote Control</a>
+                </li>
+                <li>
+                      <a onclick="window.location='' + window.strike.getTorrentClient(); return false;" href="#"><i class="fa fa-magnet"></i>Torrents</a>
+                </li>
+                <li>
+                    <a href="player.html"><i class="fa fa-play-circle"></i>View Player</a>
+                </li>
+                <li>
+                    <a href="browser.html?path=C:%5CMedia#_home"><i class="fa fa-files-o"></i>File Browser</a>
+                </li>
+                <li>
+                    <a href="info.html"><i class="fa fa-info-circle"></i>Info</a>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-heartbeat"></i>Server Health</a>
+                </li>
+                <li>
+                 <a href="file:///android_asset/landing.html"><i class="fa fa-user"></i>About</a>
+                </li>
+                <li class="active">
+                     <a href="file:///android_asset/settings.html"><i class="fa fa-cog"></i>Settings</a>
+                </li>
+
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
         
-        <strong>Error!</strong> Your MPC server is not resolving.
-		</div>
-		
-            <h2>MPC IP and Port</h2>
-			
-           <input class="form-control" type="text" id="mpc" placeholder="http://media.server.net:3542" required>
+        <div class="container-fluid">
+           
+            <!--  MOBILE HEADER -->
+            <div class="visible-xs xs-header">
+                <div class="menu-toggle">
+                    <a href="#menu-toggle" class="pull-left btn btn-info btn-lg"
+                       id="menu-toggle"><i class="fa fa-bars"></i>
+                    </a>
+                    <h1 class="pull-right">Settings</h1>
+                    <div class="clearfix"></div>
+                    <hr>
+                </div>
+            </div>
+            
+
+            <div id="error1" style="display:none" class="alert alert-danger alert-error">
+
+            <strong>Error!</strong> Your MPC server is not resolving.
+            </div>
+
+            <p>MPC IP and Port</p>
+
+            <input class="form-control input-lg" type="text" id="mpc" placeholder="http://media.server.net:3542" required>
             <hr class="col-md-12">
-			<div id="error2" style="display:none" class="alert alert-danger alert-error">
-        
-			<strong>Error!</strong> Your Deluge server is not resolving.
-			</div>
-            <h2>Deluge IP and Port</h2>
-			
-             <input class="form-control" type="text" id="deluge" placeholder="http://media.server.net:3542" required>
+            <div id="error2" style="display:none" class="alert alert-danger alert-error">
+
+            <strong>Error!</strong> Your Torrent server is not resolving.
+            </div>
+            <p>Torrent IP and Port</p>
+
+             <input class="form-control input-lg" type="text" id="deluge" placeholder="http://media.server.net:3542" required>
             </p><hr class="col-md-12">
 
-			
-			 <h2>Save Settings</h2>
-            <button id="save" type="submit"
-                                            class="col-lg-3 col-md-3 col-sm-3 col-xs-12 btn btn-success" contenteditable="false">Save</button>
-        </div>
-        <div class="span9"></div>
-    </div>
-</div>
 
+            <button id="save" type="submit" class="col-sm-3 btn btn-success btn-lg" contenteditable="false">Save Setting</button>
+            <div class="span9"></div>
+        </div>
+ 
+    </div>
+<script>
+    $("#menu-toggle").click(function (e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+</script>
  <script type="text/javascript" src="js/settings.js"></script> 
 </body>
 </html>

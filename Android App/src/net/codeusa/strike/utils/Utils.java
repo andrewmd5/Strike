@@ -68,13 +68,13 @@ public class Utils {
 			String line;
 			while ((line = bufferedReader.readLine()) != null) {
 				final String[] urls = line.split(",");
-				Settings.setMPC_URL(urls[0]);
-				Settings.setDELUGE_URL(urls[1]);
+				Settings.setMPCServer(urls[0]);
+				Settings.setTorrentClient(urls[1]);
 			}
 
 		} catch (final FileNotFoundException e) {
-			Settings.setMPC_URL("file:///android_asset/settings.html");
-			Settings.setDELUGE_URL("file:///android_asset/settings.html");
+			Settings.setMPCServer("file:///android_asset/settings.html");
+			Settings.setTorrentClient("file:///android_asset/settings.html");
 		} catch (final UnsupportedEncodingException e) {
 
 		} catch (final IOException e) {

@@ -1,13 +1,7 @@
 <html>
 
 <head>
-    <script>
-        if ( localStorage.validLogin === "false") {
-
-            window.location = "index.html";
-        }
-    </script>
-    <title>Strike - Browser</title>
+    <title>Strike - File Browser</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -17,6 +11,14 @@
     <meta name="viewport"
           content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0, maximum-scale=1, user-scalable=no, minimal-ui">
     <meta name="format-detection" content="telephone=no"/>
+    
+
+    <!-- Custom CSS -->
+    <link href="css/simple-sidebar.css" rel="stylesheet">
+
+    <!-- Google font -->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+
 
     <style type="text/css" media="screen">
         @import "iui/iui.css";
@@ -79,17 +81,17 @@
     </script>
 </head>
 
-<body>
-<div class="toolbar">
-    <a class="backButton" href="/" target="_self">Home</a>
+<body class="filebrowser">
+    <div class="toolbar">
+        <a class="backButton" href="/" target="_self">Home</a>
 
-    <h1 id="pageTitle">[currentdir]</h1>
-    <a href="remote.html" target="_self" class="button">Home</a>
-</div>
-<ul id="home" title="[currentdir]" selected="true">
-</ul>
+        <h1 id="pageTitle">[currentdir]</h1>
+        <a href="index.html" target="_self" class="button">Home</a>
+    </div>
+    <ul id="home" title="[currentdir]" selected="true">
+    </ul>
 
-<table id="placeholder">[currentfiles]</table>
+    <table id="placeholder">[currentfiles]</table>
 </body>
 
 </html>

@@ -1,0 +1,151 @@
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+    font-size: 100%;
+    font: inherit;
+    padding: 0;
+    border: 0;
+    margin: 0;
+    vertical-align: baseline;
+
+}
+
+body {
+    line-height: 1;
+}
+
+ol, ul {
+    list-style: none;
+}
+
+blockquote, q {
+    quotes: none;
+}
+
+blockquote:before, blockquote:after, q:before, q:after {
+    content: '';
+    content: none;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+
+.clear {
+    clear: both;
+}
+
+.sticky {
+}
+
+.bypostauthor {
+}
+
+.wp-caption {
+}
+
+.wp-caption-text {
+}
+
+.gallery-caption {
+}
+
+.alignright {
+}
+
+.alignleft {
+}
+
+.aligncenter {
+}
+
+body {
+    font-family: "anonymous-pro", sans-serif;
+}
+
+.widget-title {
+    display: none;
+}
+
+.widget-container {
+    text-align: center;
+}
+
+.status_return {
+    line-height: 1.5em;
+    font-size: 2.5em;
+    width: 90%;
+    margin: 10% auto 3%;
+    text-align: center;
+    font-family: "anonymous-pro", sans-serif;
+}
+
+button, input[type="submit"] {
+    cursor: pointer;
+    text-align: center;
+    margin: 0 auto 5%;
+    display: block;
+    background: #00b7ea;
+    background: -moz-linear-gradient(top, #00b7ea 0%, #009ec3 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #00b7ea), color-stop(100%, #009ec3));
+    background: -webkit-linear-gradient(top, #00b7ea 0%, #009ec3 100%);
+    background: -o-linear-gradient(top, #00b7ea 0%, #009ec3 100%);
+    background: -ms-linear-gradient(top, #00b7ea 0%, #009ec3 100%);
+    background: linear-gradient(to bottom, #00b7ea 0%, #009ec3 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00b7ea', endColorstr='#009ec3', GradientType=0);
+    border: none;
+    padding: 0.5em !important;
+    border-radius: 3px;
+    width: 200px;
+    font-size: 1em;
+    color: white;
+    font-family: "anonymous-pro", sans-serif;
+}
+
+.shittaken {
+    color: white;
+    text-align: center;
+    width: 100%;
+    margin: 0 auto;
+    padding: 5px 0;
+}
+
+form {
+    width: 200px;
+    margin: 3% auto 1%;
+}
+
+label, input {
+    display: block;
+    width: 100%;
+}
+
+label {
+    text-align: center;
+}
+
+input {
+    font-family: 'FontAwesome';
+    padding: 5px 0;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+
+}
+
+.fa-input {
+    font-family: FontAwesome, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.wrapper:before {
+    font-family: 'FontAwesome';
+    color: red;
+    position: absolute;
+    top: 0px;
+    left: -5px;
+    content: "\f007";
+}
+
