@@ -124,4 +124,4 @@ Connections are blocked by your firewall
 
 ### Final Notes
 
-This project will be updated to suck less, contribute if you want. 
+This project will be updated to suck less, contribute if you want. Big thanks to http://dmxt.org/portfolio/ for helping with the designs.
