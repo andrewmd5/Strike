@@ -82,7 +82,7 @@ If you are unsure what to put here skip down to "Configuring Domains" and come b
 
 Click save and the app will check if your settings are valid. 
 You should get this message
-![](http://i.imgur.com/O57BkTI.png)
+![](http://i.imgur.com/ghL2q2J.png)
 
 If you did, Strike by clicking Remote Control on the side panel, if it loads Strike has been configured.
 
