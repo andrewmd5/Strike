@@ -1,6 +1,6 @@
 # Strike
 
-[![](http://img.youtube.com/vi/ZrRkTYSCs-M/0.jpg)](https://www.youtube.com/watch?v=ZrRkTYSCs-M)
+[![](http://img.youtube.com/vi/ZrRkTYSCs-M/0.jpg)](https://www.youtube.com/watch?v=4sXlvGZXxtQ)
 
 # TODO
 
