@@ -395,7 +395,16 @@
             height: 4px;
         }
     </style>
+	<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
+  ga('create', 'UA-53956512-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
 </head>
 
 <body onload="Init()">
@@ -405,15 +414,15 @@
     <div id="sidebar-wrapper">
         <ul class="sidebar-nav">
             <li class="sidebar-brand">
-                <a href="remote.html">
+                <a href="index.html">
                     <h1>Strike</h1>
                 </a>
             </li>
             <li>
-                <a href="remote.html"><i class="fa fa-keyboard-o"></i>Remote Control</a>
+                <a href="index.html"><i class="fa fa-keyboard-o"></i>Remote Control</a>
             </li>
             <li>
-                <a href="http://media.andrew.im:36265/"><i class="fa fa-magnet"></i>Torrents</a>
+          <a onclick="window.location='' + window.strike.getTorrentClient(); return false;" href="#"><i class="fa fa-magnet"></i>Torrents</a>
             </li>
             <li class="active">
                 <a href="player.html"><i class="fa fa-play-circle"></i>View Player</a>

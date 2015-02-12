@@ -19,6 +19,9 @@ var AP;
 var RL;
 var rpt;
 var etaup = false;
+var positionSlider;
+positionSlider = document.getElementById("positionSlider");
+var volumeSlider = document.getElementById("volumeSlider");
 
 if (eta == 0) eta = (state < 0 && filepath.length > 0) ? 2 : 120;
 
@@ -212,6 +215,12 @@ function timesyntax(ts) {
     return b;
 }
 
+function volumeTo(event) {
+		var slider = positionSlider.parentNode;
+		var newPos = Math.round(100 * (event.clientX - slider.offsetLeft) / slider.offsetWidth);
+		player.properties.volumelevel.set(newPos);
+	}
+	
 function vupdate(a, b) {
     if (b) {
         m = (volume = ((a > 100) ? 100 : (a < 0 ? 0 : a))) * vss / 100;
@@ -235,3 +244,43 @@ function postform(wmc, ext, extv) {
     document.getElementById("ef").submit();
     return true;
 }
+ function urlencode(s) {
+            if (encodeURIComponent) return encodeURIComponent(s);
+            if (escape) return escape(s);
+            return s; // whatever
+        }
+
+ function getXMLHTTP() {
+            try {
+                return new ActiveXObject("Msxml2.XMLHTTP");
+            }
+            catch (e) {
+                try {
+                    return new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                catch (e) {
+                }
+            }
+            if (typeof XMLHttpRequest != "undefined") {
+                return new XMLHttpRequest();
+            }
+            return null;
+        }
+		
+		
+function MakeRequest(req) {
+            var httpRequest = getXMLHTTP();
+
+            try {
+                httpRequest.open("GET", req, true);
+                httpRequest.send(null);
+            }
+            catch (e) {
+            }
+        }
+
+function OnCommand(id) {
+            MakeRequest('command.html?wm_command=' + id);
+        }
+		
+		

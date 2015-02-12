@@ -41,7 +41,16 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+	<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
+  ga('create', 'UA-53956512-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
 </head>
 
 <body onload="init()">
@@ -112,16 +121,16 @@
 
                                     <button id="buplay_button" title="Play" name="buplay_button"
                                             class="col-md-2 col-xs-4 btn btn-primary"
-                                            onclick="postform(887,'null',0); return false;"><i class="fa fa-play"></i>
+                                            onclick="OnCommand(887); return false;"><i class="fa fa-play"></i>
                                     </button>
                                     <button id="pause_button" title="Pause" name="pause_button"
                                             class="col-md-2 col-xs-4 btn btn-primary"
-                                            onclick="postform(888,'null',0); return false;"><i class="fa fa-pause"></i>
+                                            onclick="OnCommand(888); return false;"><i class="fa fa-pause"></i>
 
                                     </button>
                                     <button id="stop_button" name="stop_button"
                                             class="col-md-2 col-xs-3  btn btn-primary"
-                                            onclick="postform(890,'null',0); return false;"><i class="fa fa-stop"></i>
+                                            onclick="OnCommand(890); return false;"><i class="fa fa-stop"></i>
 
                                     </button>
 
@@ -133,15 +142,15 @@
                                    
                                     <button id="volume_down" name="volume_down"
                                             class="btn btn-info col-md-2 col-xs-4"
-                                            onclick="postform(908,'null',0); return true;"><i class="fa fa-volume-down"></i>
+                                             onclick="OnCommand(908); return false;"><i class="fa fa-volume-down"></i>
                                     </button>
                                     <button id="volume_up" name="volume_up"
                                             class="btn btn-info col-md-2 col-xs-4"
-                                            onclick="postform(907,'null',0); return false;"><i class="fa fa-volume-up"></i>
+                                            onclick="OnCommand(907); return false;"><i class="fa fa-volume-up"></i>
                                     </button>
                                     <button id="mute_button" name="mute_button"
                                             class="col-md-2 col-xs-3 btn btn-info"
-                                            onclick="postform(909,'null',0); return false;"><i class="fa fa-volume-off"></i>
+                                           onclick="OnCommand(909); return false;"><i class="fa fa-volume-off"></i>
 
                                     </button>
                                     
@@ -153,11 +162,11 @@
                                     
                                     <button id="slow_down" name="slow_down"
                                             class="btn btn-info col-md-3 col-xs-6"
-                                            onclick="postform(894,'null',0); return false;">Slow Down
+                                             onclick="OnCommand(894); return false;">Slow Down
                                     </button>
                                     <button id="speed_up" name="speed_up"
                                             class="btn btn-info col-md-3 col-xs-5"
-                                            onclick="postform(895,'null',0); return false;">Speed Up
+                                            onclick="OnCommand(895); return false;">Speed Up
                                     </button>
 
                                     </div>
@@ -168,11 +177,11 @@
                                    
                                     <button id="fullscreen_button" name="fullscreen_button"
                                             class="btn btn-info col-md-3 col-xs-6"
-                                            onclick="postform(830,'null',0); return false;">Full Screen
+                                             onclick="OnCommand(830); return false;">Full Screen
                                     </button>
                                     <button id="full_no_res" name="full_no_res"
                                             class="btn btn-info col-md-3 col-xs-5"
-                                            onclick="postform(831,'null',0); return false;">Full w/o Res Change
+                                            onclick="OnCommand(831); return false;">Full w/o Res Change
                                     </button>
 
 
