@@ -4,6 +4,9 @@ import net.codeusa.strike.js.JSEngine;
 import net.codeusa.strike.settings.Settings;
 import net.codeusa.strike.utils.Utils;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -19,6 +22,8 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.EditText;
+import android.widget.Toast;
 
 public class StrikeActivity extends ActionBarActivity {
 
@@ -32,6 +37,9 @@ public class StrikeActivity extends ActionBarActivity {
 		if (savedInstanceState == null) {
 			getSupportFragmentManager().beginTransaction()
 					.add(R.id.container, new StrikeFragment()).commit();
+		} else {
+		
+			      ((WebView)findViewById(R.id.webview)).restoreState(savedInstanceState);
 		}
 
 		activity = this;
@@ -95,6 +103,32 @@ public class StrikeActivity extends ActionBarActivity {
 				final String base64 = android.util.Base64.encodeToString(
 						html.getBytes(), android.util.Base64.DEFAULT);
 				view.loadData(base64, "text/html; charset=utf-8", "base64");
+				Context context = view.getContext();
+				CharSequence text = description + " \\ " + errorCode + " \\ " + failingUrl;
+				AlertDialog.Builder alert = new AlertDialog.Builder(context);
+//https://github.com/Codeusa/Strike/issues/new
+				alert.setTitle("Report this on Github");
+				alert.setMessage(text);
+
+				// Set an EditText view to get user input 
+				final EditText input = new EditText(context);
+				alert.setView(input);
+
+				alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int whichButton) {
+					view.getContext().startActivity(
+							new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Codeusa/Strike/issues/new")));
+				  }
+				});
+
+				alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+				  public void onClick(DialogInterface dialog, int whichButton) {
+				    // Canceled.
+				  }
+				});
+
+				alert.show();
+				view.loadUrl("file:///android_asset/landing.html");
 			}
 
 			@Override
@@ -103,7 +137,7 @@ public class StrikeActivity extends ActionBarActivity {
 				if (url.contains(Settings.getMPCServer())
 						|| url.contains(Settings.getTorrentClient())) {
 					view.loadUrl(url);
-					return true;
+					return false;
 				} else if (url.contains("andrew.im")) {
 
 					view.getContext().startActivity(
