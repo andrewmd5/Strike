@@ -1,6 +1,6 @@
-# Strike
+# Strike 
 
-[![](http://img.youtube.com/vi/ZrRkTYSCs-M/0.jpg)](https://www.youtube.com/watch?v=4sXlvGZXxtQ)
+Strike is a multiplatform MPC web wrapper that hopes to allow for easier management of media, remotely. 
 
 # TODO
 
@@ -11,120 +11,88 @@
 - [ ] Web server integration
 - [ ] Deluge auto extractor
 
-#### Welcome to Strike, my awful attempts at creating a reliable media management platform. There is a lot of bad code and even more bugs, but this short guide will teach you how to go about setting up this wonderful project. Lets get started.
+# Setup Guide
+
+Setting up Strike can seem kind of confusing for novice users, but I'm here to walk you through the process and get you on your way to a better home media server.
+
+#### Downloads
+
+So for Strike to work properly you'll need to download a few things.
+
+* [MPC] - Media Player Classic
+* [StrikeWeb] - The wrapper that fuses with SVP
+* [AndroidApp] - The android app
 
 
+#### Setting up Strike Web
 
-### Download required software 
+Once you've downloaded the latest version of Strike Web, create a new directory like so
 
-Strike works with MPC-HD and any torrent client that supports a Web UI (Tested with Deluge)
+![](http://i.imgur.com/w4sLlzO.gif)
 
+Extract the contents of the StrikeWeb zip into that directory, the end results should look like this
 
+![](http://i.imgur.com/OgSGohI.png)
 
-Now head to https://github.com/Codeusa/Strike/releases 
+#### Setting up MPC
 
-Download the latest version of StrikeWeb (Currently 4.1) 
+Once you've installed MPC click **View -> Options** when the new menu opens click on **Web Interface** 
 
-Download the android application from https://play.google.com/store/apps/details?id=net.codeusa.strike
+The first thing you should do is check the box that says ** Listen on Port** after this you are free to change the port number from ** 13579** to whatever you'd like if you so desire.
 
-You can download MPC from http://mpc-hc.org/
+Follow the steps taken in the below gif, making sure to browse for the folder you created earlier
 
-If you don't have a torrent client with a Web Interface, download Deluge from http://deluge-torrent.org/
+![](http://i.imgur.com/HT9KsAf.gif)
 
-### Configuring MPC
+Once you've done this open up the following in your web browser
 
-NOTE: If this is confusing to you, read carefully. We offer an installer that will install a preconfigured version of Strike/MPC for you, but please continue following this tutorial https://github.com/Codeusa/Strike/releases
+http://localhost:13579  (substitute 13579 with whatever port you chose)
 
+If it loads, Strike Web is working
 
-Next lets configure MPC for Strike. 
+#### Setting up a torrent client
+If you torrent client supports a web interface, configure it and set it up using the recommeneded steps for that client.
 
-Create a folder in your C drive called "web", place the files from the WebStrike zip you downloaded inside it, it should look like this
-![](http://i.imgur.com/C2Rzb8T.png)
+#### Forward your ports
+Forward the ports for both MPC and your torrent client within your router, if you are unsure how to do this, follow this guide.
 
+https://www.youtube.com/watch?v=ye_BnHAEJGU
 
-Now open Media Player Classic
+Once forwarded try accessing Strike Web via your machines public IP.
 
-Go to View -> Options -> Player -> Web Interface and make sure your settings look similar to this
+***I am creating a method to skip this if you find yourself unable to forward, it will be released soon***
 
-![](http://i.imgur.com/cGiAMBi.png)
+#### Setting up the android app
 
-Click browse and select the folder you created earlier
+Once you've downloaded the app from the Play Store, go to the settings menu and enter the IP/ports of your MPC/Torrent client using the given example, if you have your own domain you can use that too.
 
-Now the next part is not currently configurable unless you edit the Web Strike source, which you're free to do. By default it looks for media at C:\Media\ and it will automatically build file chains of any folders in there. Filtering out non media files. So organize your content.
+http://ip:port //replace "ip" with your ip & "port" with your port
 
-You can change this by editing the the links to browser.html
+http://domain:port // replace "domain" with your domain/subdomain and "port" with your port
 
-NOTE: Whatever port you bind MPC, make sure its forwarded on your router so you can access it remotely.
+![](http://i.imgur.com/MbpSOAc.png)
 
-### Configuring Deluge
+If your ports are forwarded the android app should inform you your settings are fine, else it will throw it an error if it can't connect to either client.
 
-As of now I currently use Deluge, so that is the client I'll be supporting here, google if your torrent client supports a Web UI and follow a setup guide for that if you do not use deluge.
+#### Orginizaing your media
 
-Open deluge and click Edit -> Preferences -> Plugins
+By default Strike looks for media in C:/Media/, you can set this path in the settings if you wish to change it. 
 
-Make sure it looks like this
+#### Trouble shooting
 
-![](http://i.imgur.com/pJi9zn2.png)
+If your Strike panel from MPC does not load, it could be a few things.
 
-Then click WebUI and ensure it looks similar to this, the port is whatever you want it to be. Just make sure its forwarded on your router.
+MPC is not running, you did not forward the ports you picked, you're pointing your domain to the wrong address, connections are blocked by your firewall. 
 
-![](http://i.imgur.com/xS0gdrR.png)
+#### Contact
 
-
-Click apply and you're done. When you visit the Deluge Web UI for the first time it will prompt you for a password/ask you to change it. By default the password is  "deluge"
-
-### Configuring Strike Android
-
-Assuming you've downloaded the app from the play store, follow the steps accordingly.
-
-Start the application, click the Setting button on the side bar and begin configuring your servers.
-
-If you are unsure what to put here skip down to "Configuring Domains" and come back to this. You will not be able to use Strike until this is configured.
-
-![](http://i.imgur.com/d4LreTe.png)
-
-Click save and the app will check if your settings are valid. 
-You should get this message
-![](http://i.imgur.com/ghL2q2J.png)
-
-If you did, Strike by clicking Remote Control on the side panel, if it loads Strike has been configured.
-
-If all is well click Remote on the sidebar and your control panel should load
-
-![](http://i.imgur.com/DGMuoOo.png)
-
-### Configuring Domains
-
-Assuming you own one, you can configure your domaim to point at your Strike bundle. Its pretty simple
-
-In cloudflare add an A record to your domain similar to this (or whatever DNS service you use)
-
-![](http://i.imgur.com/CTng2pk.png)
-
-Where it says "media" this can be anything you want and where it says the ip address, this obviously needs to be YOUR servers IP address.
-
-If you don't own a domain simply get the PUBLIC ip of whatever machine you're running MPC on, to do this, open this link on your media server http://www.whatsmyip.org/ and copy the ip it provides.
-
-If your ports are forwarded for the ports you picked earlier on your router for that machine, you should be able to access it just fine. 
-
-Either by going to 
-
-media.github.com:5353 (replace with your domains/ports)
-
-or
-
-79.25.25.124:port (that ip should be your machines public ip and that port should be the one you forwarded)
+If you have any issues contact me on my [blog]
 
 
-### Trouble Shooting 
+**Free Software, Hell Yeah!**
 
-If your Deluge web panel does not load or your Strike panel from MPC does not load, it could be a few things.
-
-Deluge or MPC are not running
-You did not forward the ports you picked
-You're pointing your domain to the wrong address
-Connections are blocked by your firewall
-
-### Final Notes
-
-This project will be updated to suck less, contribute if you want. Big thanks to http://dmxt.org/portfolio/ for helping with the designs.
+[MPC]:http://mpc-hc.org/
+[Deluge]:http://deluge-torrent.org/
+[StrikeWeb]:https://github.com/Codeusa/Strike/releases
+[AndroidApp]:https://play.google.com/store/apps/details?id=net.codeusa.strike&hl=en
+[blog]:http://blog.andrew.im/ask/
