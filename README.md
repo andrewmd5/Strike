@@ -33,6 +33,9 @@ If you don't have a torrent client with a Web Interface, download Deluge from ht
 
 ### Configuring MPC
 
+NOTE: If this is confusing to you, read carefully. We offer an installer that will install a preconfigured version of Strike/MPC for you, but please continue following this tutorial https://github.com/Codeusa/Strike/releases
+
+
 Next lets configure MPC for Strike. 
 
 Create a folder in your C drive called "web", place the files from the WebStrike zip you downloaded inside it, it should look like this
