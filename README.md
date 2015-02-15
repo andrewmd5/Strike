@@ -23,7 +23,7 @@ Strike works with MPC-HD and any torrent client that supports a Web UI (Tested w
 
 Now head to https://github.com/Codeusa/Strike/releases 
 
-Download the latest version of StrikeWeb (Currently 4.0) 
+Download the latest version of StrikeWeb (Currently 4.1) 
 
 Download the android application from https://play.google.com/store/apps/details?id=net.codeusa.strike
 
