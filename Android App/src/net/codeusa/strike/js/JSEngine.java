@@ -7,7 +7,9 @@ import net.codeusa.strike.utils.Utils;
 import android.webkit.JavascriptInterface;
 
 public class JSEngine {
+	
 	NotficationService notfication = new NotficationService();
+	
 
 	@JavascriptInterface
 	public void saveSettings(final String jsResult) {
@@ -34,7 +36,27 @@ public class JSEngine {
 	public String checkStatus(final String host) {
 		return Utils.isUP(host) == true ? "true" : "false";
 	}
+	
+	@JavascriptInterface
+	public void play() {
+		Settings.getClient().play();
+	}
+	
+	@JavascriptInterface
+	public void pause() {
+		Settings.getClient().pause();
+	}
 
+	@JavascriptInterface
+	public void prev() {
+		Settings.getClient().previous();
+	}
+	
+	@JavascriptInterface
+	public void next() {
+		Settings.getClient().next();
+	}
+	
 	@JavascriptInterface
 	public void startNotfication() {
 

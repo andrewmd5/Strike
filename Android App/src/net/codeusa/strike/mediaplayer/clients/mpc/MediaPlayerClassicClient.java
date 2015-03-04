@@ -30,7 +30,7 @@ public class MediaPlayerClassicClient extends MediaClient {
 	private static int NEXT = 920;
 	private static int PREV = 921;
 
-	private String cachedTitle = "jdjdd";
+	private String cachedTitle = "";
 	private Bitmap cachedScreenGrab;
 	private String[] statusContent;
 	private String title;

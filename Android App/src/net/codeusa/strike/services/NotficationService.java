@@ -22,7 +22,7 @@ public class NotficationService {
 	private Notification notification;
 	private boolean stopNotifications;
 	NotificationManager notificationManager;
-	MediaPlayerClassicClient client = new MediaPlayerClassicClient();
+	MediaPlayerClassicClient client;
 
 	public Notification getNotification() {
 		return this.notification;
@@ -104,7 +104,11 @@ public class NotficationService {
 				
 				
 				
-
+				if (client == null) {
+					client = new MediaPlayerClassicClient();
+					net.codeusa.strike.settings.Settings.client = client;
+					
+				}
 				client.setStatusContent();
 				final String title = client.getTitle();
 				final String text = client.getFormattedNotfication();
