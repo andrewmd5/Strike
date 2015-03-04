@@ -281,6 +281,10 @@ function MakeRequest(req) {
 
 function OnCommand(id) {
             MakeRequest('command.html?wm_command=' + id);
+			var agent = navigator.userAgent;
+			if (agent == "StrikeDroid/4") {
+			   window.strike.startNotfication();
+			}
         }
 		
 		
