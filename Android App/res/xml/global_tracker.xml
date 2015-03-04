@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<!-- The following value should be replaced with correct property id. -->
+<string name="ga_trackingId">UA-59872713-1</string>
+
+<integer name="ga_sessionTimeout">300</integer>
+
+<bool name="ga_autoActivityTracking">true</bool>
+
+<!-- the Local LogLevel for Analytics -->
+<string name="ga_logLevel">verbose</string>
+
+<!-- how often the dispatcher should fire -->
+<integer name="ga_dispatchPeriod">30</integer>
+
+<!-- Treat events as test events and don't send to google -->
+<bool name="ga_dryRun">false</bool>
+
+<screenName name="net.codeusa.strike.StrikeActivity">Strike</screenName>
+</resources>

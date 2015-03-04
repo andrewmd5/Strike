@@ -1,10 +1,12 @@
 package net.codeusa.strike;
 
 import net.codeusa.strike.js.JSEngine;
+import net.codeusa.strike.services.NotficationService;
 import net.codeusa.strike.settings.Settings;
 import net.codeusa.strike.utils.Utils;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,36 +16,46 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.EditText;
-import android.widget.Toast;
 
 public class StrikeActivity extends ActionBarActivity {
 
 	public static StrikeActivity activity;
-	private WebView globalView;
+	public WebView globalView;
+	NotficationService notification;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
+		/*
+		 * requestWindowFeature(Window.FEATURE_ACTION_BAR |
+		 * Window.FEATURE_ACTION_MODE_OVERLAY);
+		 * getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+		 * WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		 */
+
 		super.onCreate(savedInstanceState);
+
 		setContentView(R.layout.activity_strike);
 		if (savedInstanceState == null) {
 			getSupportFragmentManager().beginTransaction()
-					.add(R.id.container, new StrikeFragment()).commit();
+			.add(R.id.container, new StrikeFragment()).commit();
+			getSupportActionBar().hide();
 		} else {
-		
-			      ((WebView)findViewById(R.id.webview)).restoreState(savedInstanceState);
+			getSupportActionBar().hide();
+			// ((WebView)findViewById(R.id.webview)).restoreState(savedInstanceState);
 		}
 
 		activity = this;
+
 		Utils.readSettings(getApplicationContext());
+
+		this.notification = new NotficationService();
+
 	}
 
 	@SuppressLint("SetJavaScriptEnabled")
@@ -65,7 +77,7 @@ public class StrikeActivity extends ActionBarActivity {
 
 		remoteView.getSettings().setJavaScriptEnabled(true);
 		remoteView.getSettings().setUserAgentString("StrikeDroid/4");
-	//	remoteView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+		// remoteView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
 		remoteView.setOnLongClickListener(new View.OnLongClickListener() {
 
 			@Override
@@ -103,29 +115,40 @@ public class StrikeActivity extends ActionBarActivity {
 				final String base64 = android.util.Base64.encodeToString(
 						html.getBytes(), android.util.Base64.DEFAULT);
 				view.loadData(base64, "text/html; charset=utf-8", "base64");
-				Context context = view.getContext();
-				CharSequence text = description + " \\ " + errorCode + " \\ " + failingUrl;
-				AlertDialog.Builder alert = new AlertDialog.Builder(context);
-//https://github.com/Codeusa/Strike/issues/new
+				final Context context = view.getContext();
+				final CharSequence text = description + " \\ " + errorCode
+						+ " \\ " + failingUrl;
+				final AlertDialog.Builder alert = new AlertDialog.Builder(
+						context);
+				// https://github.com/Codeusa/Strike/issues/new
 				alert.setTitle("Report this on Github");
 				alert.setMessage(text);
 
-				// Set an EditText view to get user input 
+				// Set an EditText view to get user input
 				final EditText input = new EditText(context);
 				alert.setView(input);
 
-				alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int whichButton) {
-					view.getContext().startActivity(
-							new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Codeusa/Strike/issues/new")));
-				  }
-				});
+				alert.setPositiveButton("Ok",
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(final DialogInterface dialog,
+									final int whichButton) {
+								view.getContext()
+										.startActivity(
+												new Intent(
+														Intent.ACTION_VIEW,
+														Uri.parse("https://github.com/Codeusa/Strike/issues/new")));
+							}
+						});
 
-				alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-				  public void onClick(DialogInterface dialog, int whichButton) {
-				    // Canceled.
-				  }
-				});
+				alert.setNegativeButton("Cancel",
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(final DialogInterface dialog,
+									final int whichButton) {
+								// Canceled.
+							}
+						});
 
 				alert.show();
 				view.loadUrl("file:///android_asset/landing.html");
@@ -134,6 +157,7 @@ public class StrikeActivity extends ActionBarActivity {
 			@Override
 			public boolean shouldOverrideUrlLoading(final WebView view,
 					final String url) {
+
 				if (url.contains(Settings.getMPCServer())
 						|| url.contains(Settings.getTorrentClient())) {
 					view.loadUrl(url);
@@ -156,6 +180,8 @@ public class StrikeActivity extends ActionBarActivity {
 
 					return false;
 				}
+
+				Settings.setURL(url);
 				return false;
 
 			}
@@ -166,33 +192,19 @@ public class StrikeActivity extends ActionBarActivity {
 		final JSEngine jsEngine = new JSEngine();
 		remoteView.addJavascriptInterface(jsEngine, "strike");
 		remoteView.getSettings().setDomStorageEnabled(true);
-		remoteView.loadUrl("file:///android_asset/landing.html");
+		remoteView
+				.loadUrl(Settings.getLastURL() == null ? "file:///android_asset/landing.html"
+						: Settings.getLastURL());
 
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(final Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.strike, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(final MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		final int id = item.getItemId();
-		if (id == R.id.action_donate) {
-			this.globalView
-					.getContext()
-					.startActivity(
-							new Intent(
-									Intent.ACTION_VIEW,
-									Uri.parse("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JJQGYGF7EW56U")));
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
+	public void onBackPressed() {
+		notification.setStopNotfications(true);
+		 NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+		 mNotificationManager.cancelAll();
+		android.os.Process.killProcess(android.os.Process.myPid());
+		return;
 	}
 
 	/**
@@ -201,6 +213,7 @@ public class StrikeActivity extends ActionBarActivity {
 	public static class StrikeFragment extends Fragment {
 
 		public StrikeFragment() {
+
 		}
 
 		@Override
@@ -209,14 +222,10 @@ public class StrikeActivity extends ActionBarActivity {
 			final View rootView = inflater.inflate(R.layout.fragment_strike,
 					container, false);
 
-			if (savedInstanceState != null) {
-				((WebView) rootView.findViewById(R.id.webview))
-				.restoreState(savedInstanceState);
-			}
-
 			final WebView webView = (WebView) rootView
 					.findViewById(R.id.webview);
 			loadView(webView);
+
 			return rootView;
 		}
 	}

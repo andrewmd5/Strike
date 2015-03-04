@@ -5,15 +5,29 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.UnknownHostException;
 
+import net.codeusa.strike.StrikeActivity;
 import net.codeusa.strike.settings.Settings;
+import android.content.ComponentName;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.media.AudioManager;
 import android.os.Environment;
 import android.util.Log;
 
 public class Utils {
+	AudioManager mAudioManager;
+	ComponentName mMediaButtonReceiverComponent;
 
 	public static boolean isSdReadable() {
 
@@ -59,6 +73,30 @@ public class Utils {
 
 	}
 
+	public static boolean isUP(final String host) {
+		try {
+			final URL url = new URL(host);
+			InputStream i = null;
+
+			try {
+				i = url.openStream();
+			} catch (final UnknownHostException ex) {
+				return false;
+			} catch (final IOException e) {
+				return false;
+			}
+
+			if (i != null) {
+				return true;
+			}
+
+		} catch (final MalformedURLException e) {
+			e.printStackTrace();
+		}
+
+		return false;
+	}
+
 	public static void readSettings(final Context context) {
 		try {
 			final FileInputStream fis = context.getApplicationContext()
@@ -80,5 +118,17 @@ public class Utils {
 		} catch (final IOException e) {
 
 		}
+	}
+
+	public static Drawable drawableFromUrl(final String url) throws IOException {
+		Bitmap x;
+
+		final HttpURLConnection connection = (HttpURLConnection) new URL(url)
+				.openConnection();
+		connection.connect();
+		final InputStream input = connection.getInputStream();
+
+		x = BitmapFactory.decodeStream(input);
+		return new BitmapDrawable(StrikeActivity.activity.getResources(), x);
 	}
 }

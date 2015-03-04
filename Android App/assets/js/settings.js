@@ -84,23 +84,17 @@ function save(clicked) { //code smell
         return false;
     }
 
-    $.get("http://netflixroulette.net/api/status/?url=" + encodeURIComponent(mpcserver), function (data) {
 
-        if (data.indexOf("false") > -1) {
-            errors = true;
-            sendError(1);
-        }
-
-    });
-
-    $.get("http://netflixroulette.net/api/status/?url=" + encodeURIComponent(delugeserver), function (data) {
-
-        if (data.indexOf("false") > -1) {
-            errors = true;
-            sendError(2);
-        }
-    });
-
+   var mpcStatus = window.strike.checkStatus(mpcserver);
+    var torrentStatus = window.strike.checkStatus(delugeserver);
+    if (mpcStatus.indexOf("false") > -1) {
+        errors = true;
+        sendError(1);
+    }
+    if (torrentStatus.indexOf("false") > -1) {
+        errors = true;
+        sendError(2);
+    }
     if (errors === true) {
         return false;
     }
