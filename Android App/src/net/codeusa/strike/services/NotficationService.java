@@ -1,7 +1,6 @@
 package net.codeusa.strike.services;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
+
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -21,7 +20,7 @@ import android.os.AsyncTask;
 
 public class NotficationService {
 	private Notification notification;
-	private boolean stopNotfications;
+	private boolean stopNotifications;
 	NotificationManager notificationManager;
 	MediaPlayerClassicClient client = new MediaPlayerClassicClient();
 
@@ -29,7 +28,7 @@ public class NotficationService {
 		return this.notification;
 	}
 
-	public void createNotfication(final String title, final String duration,
+	public void createNotification(final String title, final String duration,
 			final Bitmap snapShot) {
 
 		//register intents
@@ -103,30 +102,26 @@ public class NotficationService {
 					scheduleTaskExecutor.shutdown();
 				}
 				
-				String status = null;
-				try {
-					status = client.getMPCStatus();
-				} catch (URISyntaxException | IOException e) {
-					return;
-				}
+				
+				
 
-				client.setStatus(status);
+				client.setStatusContent();
 				final String title = client.getTitle();
 				final String text = client.getFormattedNotfication();
 				final Bitmap icon = client.getScreenGrab(title);
 				
-				createNotfication(title, text, icon);
+				createNotification(title, text, icon);
 				
 			}
 		}, 0, 500, TimeUnit.MILLISECONDS);
 	}
 
 	public boolean isStopNotfications() {
-		return this.stopNotfications;
+		return this.stopNotifications;
 	}
 
 	public void setStopNotfications(final boolean stopNotfications) {
-		this.stopNotfications = stopNotfications;
+		this.stopNotifications = stopNotfications;
 	}
 
 	private class PlayerControlTask extends AsyncTask<String, Integer, Double> {

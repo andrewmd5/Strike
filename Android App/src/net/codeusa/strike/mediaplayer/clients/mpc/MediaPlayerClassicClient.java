@@ -9,6 +9,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import net.codeusa.strike.mediaplayer.clients.MediaClient;
 import net.codeusa.strike.settings.Settings;
@@ -30,7 +32,11 @@ public class MediaPlayerClassicClient extends MediaClient {
 
 	private String cachedTitle = "";
 	private Bitmap cachedScreenGrab;
-	private static String status;
+	private String[] statusContent;
+	private String title;
+	private String currentDuration;
+	private String totalDuration;
+	private String playBackStatus;
 
 	@Override
 	public void play() {
@@ -62,10 +68,10 @@ public class MediaPlayerClassicClient extends MediaClient {
 
 	}
 
-	@Override
-	public void sendCommand(final Integer... id) {
+
+	public void sendCommand(int id) {
 		final String url = Settings.getMPCServer()
-				+ "/command.html?wm_command=" + id;
+				+ "/command.html?wm_command=" + String.valueOf(id);
 		HttpResponse response = null;
 
 		try {
@@ -87,24 +93,29 @@ public class MediaPlayerClassicClient extends MediaClient {
 
 	}
 
-	public String getStatus() {
-		return status;
+	public void setStatusContent() {
+		String mpcStatus = getMPCStatus();
+		int ignore_mpc = mpcStatus.lastIndexOf(" - Media Player Classic");
+		 if( ignore_mpc != -1 ) {
+			mpcStatus = mpcStatus.replace(" - Media Player Classic", "");
+		}
+		Pattern pattern = Pattern.compile("OnStatus\\(\"(.*?)\"\\)");
+		Matcher matcher = pattern.matcher(getMPCStatus());
+		if (matcher.find()) {
+			statusContent = matcher.group(1).replaceAll("\"", "").split(",");
+			title = statusContent[0];
+			currentDuration = statusContent[3];
+			totalDuration = statusContent[5];
+			playBackStatus = statusContent[1];
+		}	
 	}
-
-	public void setStatus(final String status) {
-		MediaPlayerClassicClient.status = status;
-	}
+	
 
 	public String getTitle() {
-		final String[] mpcContent = status.split(",");
-		final String title = mpcContent[0].replace("OnStatus(", "").replaceAll(
-				"\"", "");
 		return title;
 	}
 
-	public String getPlayBackStatus() {
-		final String[] mpcContent = status.split(",");
-		final String playBackStatus = mpcContent[1].replaceAll("\"", "");
+	public String getPlayBackStatus() {	
 		return playBackStatus;
 	}
 
@@ -119,11 +130,7 @@ public class MediaPlayerClassicClient extends MediaClient {
 	}
 
 	public String getFormattedNotfication() {
-		final String[] mpcContent = status.split(",");
-		final String playBackStatus = mpcContent[1].replaceAll("\"", "");
-		final String currentTime = mpcContent[3].replaceAll("\"", "");
-		final String totalTime = mpcContent[5].replaceAll("\"", "");
-		final String text = currentTime + "/" + totalTime + " - "
+		final String text = currentDuration + "/" + totalDuration + " - "
 				+ playBackStatus;
 		return text;
 	}
@@ -152,37 +159,41 @@ public class MediaPlayerClassicClient extends MediaClient {
 
 	}
 
-	public String getMPCStatus() throws URISyntaxException,
-	ClientProtocolException, IOException {
-		final URL url = new URL(Settings.getMPCServer() + "/status.html");
-		final DefaultHttpClient client = new DefaultHttpClient();
-		final HttpGet request = new HttpGet(url.toURI());
-		final HttpResponse response = client.execute(request);
-
-		Reader reader = null;
+	private String getMPCStatus()  {
 		try {
-			reader = new InputStreamReader(response.getEntity().getContent());
+			final URL url = new URL(Settings.getMPCServer() + "/status.html");
+			final DefaultHttpClient client = new DefaultHttpClient();
+			final HttpGet request = new HttpGet(url.toURI());
+			final HttpResponse response = client.execute(request);
 
-			final StringBuffer sb = new StringBuffer();
-			{
-				int read;
-				final char[] cbuf = new char[1024];
-				while ((read = reader.read(cbuf)) != -1) {
-					sb.append(cbuf, 0, read);
+			Reader reader = null;
+			try {
+				reader = new InputStreamReader(response.getEntity().getContent());
+
+				final StringBuffer sb = new StringBuffer();
+				{
+					int read;
+					final char[] cbuf = new char[1024];
+					while ((read = reader.read(cbuf)) != -1) {
+						sb.append(cbuf, 0, read);
+					}
+				}
+
+				return sb.toString();
+
+			} finally {
+				if (reader != null) {
+					try {
+						reader.close();
+					} catch (final IOException e) {
+						e.printStackTrace();
+					}
 				}
 			}
-
-			return sb.toString();
-
-		} finally {
-			if (reader != null) {
-				try {
-					reader.close();
-				} catch (final IOException e) {
-					e.printStackTrace();
-				}
-			}
+		} catch (IllegalStateException | URISyntaxException | IOException e) {
+			e.printStackTrace();
 		}
+		return null;
 	}
 
 }
