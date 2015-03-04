@@ -30,7 +30,7 @@ public class MediaPlayerClassicClient extends MediaClient {
 	private static int NEXT = 920;
 	private static int PREV = 921;
 
-	private String cachedTitle = "";
+	private String cachedTitle = "jdjdd";
 	private Bitmap cachedScreenGrab;
 	private String[] statusContent;
 	private String title;
@@ -99,15 +99,13 @@ public class MediaPlayerClassicClient extends MediaClient {
 		 if( ignore_mpc != -1 ) {
 			mpcStatus = mpcStatus.replace(" - Media Player Classic", "");
 		}
-		Pattern pattern = Pattern.compile("OnStatus\\(\"(.*?)\"\\)");
-		Matcher matcher = pattern.matcher(getMPCStatus());
-		if (matcher.find()) {
-			statusContent = matcher.group(1).replaceAll("\"", "").split(",");
-			title = statusContent[0];
-			currentDuration = statusContent[3];
-			totalDuration = statusContent[5];
-			playBackStatus = statusContent[1];
-		}	
+		mpcStatus = mpcStatus.substring(mpcStatus.indexOf('(') + 1, mpcStatus.lastIndexOf(')'));
+ 
+		statusContent = mpcStatus.replaceAll("\"", "").split(",");
+		title = statusContent[0];
+		currentDuration = statusContent[3];
+		totalDuration = statusContent[5];
+		playBackStatus = statusContent[1];
 	}
 	
 
