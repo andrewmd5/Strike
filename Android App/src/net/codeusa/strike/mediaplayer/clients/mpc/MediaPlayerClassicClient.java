@@ -195,7 +195,7 @@ public class MediaPlayerClassicClient extends MediaClient {
 	}
 
 	@Override
-	public void volumeUP() {
+	public void volumeUp() {
 	sendCommand(907);
 		
 	}
@@ -212,8 +212,8 @@ public class MediaPlayerClassicClient extends MediaClient {
 	}
 
 	@Override
-	public void seek() {
-		// TODO Auto-generated method stub
+	public void seek(int seconds) {
+		//todo
 		
 	}
 

@@ -63,8 +63,8 @@ public class JSEngine {
 	}
 	
 	@JavascriptInterface
-	public void volumeUP() {
-		Settings.getClient().volumeUP();
+	public void volumeUp() {
+		Settings.getClient().volumeUp();
 	}
 	
 	@JavascriptInterface
@@ -73,8 +73,8 @@ public class JSEngine {
 	}
 	
 	@JavascriptInterface
-	public void seek() {
-		Settings.getClient().seek();
+	public void seek(int seconds) {
+		Settings.getClient().seek(seconds);
 	}
 	
 	@JavascriptInterface
