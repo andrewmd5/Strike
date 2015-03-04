@@ -1,132 +1,132 @@
 <html>
 
-<head>
-    <title>Strike - File Browser</title>
-	<html>
+	<head>
+		<title>Strike - File Browser</title>
+		<html>
 
-    <script>
-        (function (i, s, o, g, r, a, m) {
-            i['GoogleAnalyticsObject'] = r;
-            i[r] = i[r] || function () {
-                (i[r].q = i[r].q || [])
-                .push(arguments)
-            }, i[r].l = 1 * new Date();
-            a = s.createElement(o),
-                m = s.getElementsByTagName(o)[0];
-            a.async = 1;
-            a.src = g;
-            m.parentNode.insertBefore(a, m)
-        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+			<script>
+				(function(i, s, o, g, r, a, m) {
+					i['GoogleAnalyticsObject'] = r;
+					i[r] = i[r] || function() {
+						(i[r].q = i[r].q || [])
+								.push(arguments)
+					}, i[r].l = 1 * new Date();
+					a = s.createElement(o),
+							m = s.getElementsByTagName(o)[0];
+					a.async = 1;
+					a.src = g;
+					m.parentNode.insertBefore(a, m)
+				})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
-        ga('create', 'UA-53956512-1', 'auto');
-        ga('send', 'pageview');
+				ga('create', 'UA-53956512-1', 'auto');
+				ga('send', 'pageview');
 
-    </script>
-
-
-<body bgcolor="#09343E">
-    <table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
-        <tr>
-            <td>
-                <div align="center"><font color="white" size="20pt">Error Loading, Please Try Again.</font>
-                </div>
-            </td>
-        </tr>
-    </table>
-    <html>
-
-    <body>
-
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="HandheldFriendly" content="True">
-    <meta name="MobileOptimized" content="320">
-    <meta name="viewport"
-          content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0, maximum-scale=1, user-scalable=no, minimal-ui">
-    <meta name="format-detection" content="telephone=no"/>
-    
-
-    <!-- Custom CSS -->
-    <link href="css/simple-sidebar.css" rel="stylesheet">
-
-    <!-- Google font -->
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+			</script>
 
 
-    <style type="text/css" media="screen">
-        @import "iui/iui.css";
+			<body bgcolor="#09343E">
+				<table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
+					<tr>
+						<td>
+							<div align="center"><font color="white" size="20pt">Error Loading, Please Try Again.</font>
+							</div>
+						</td>
+					</tr>
+				</table>
+				<html>
 
-    </style>
+					<body>
 
-    <script type="text/javascript">
-        var filter = ["zip", "rar", "7zip", "7z", "sfv", "md5", "nfo", "txt", "dll", "tmp", "exe", "BPres", "sfk", "ini", "cer", "jar", "php", "apk", "lnk", "css", "dat", "dat2", "log", "vsix", "msi", "cab",
-            "fxml", "java", "js", "class", "html", "iso"];
+						<link href="css/bootstrap.min.css" rel="stylesheet">
+						<link href="css/style.css" rel="stylesheet">
+						<meta name="apple-mobile-web-app-capable" content="yes">
+						<meta name="apple-mobile-web-app-status-bar-style" content="black">
+						<meta name="HandheldFriendly" content="True">
+						<meta name="MobileOptimized" content="320">
+						<meta name="viewport"
+							  content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0, maximum-scale=1, user-scalable=no, minimal-ui">
+						<meta name="format-detection" content="telephone=no"/>
 
-        function arrayContains(needle, arrhaystack) {
 
-            return (arrhaystack.indexOf(needle) > -1);
-        }
+						<!-- Custom CSS -->
+						<link href="css/simple-sidebar.css" rel="stylesheet">
 
-        function isPartFile(extension) {
-            var re = /^r\d{2,3}$/;
-            if (extension.match(re)) {
-                return true;
-            } else {
-                return false;
-            }
-        }
+						<!-- Google font -->
+						<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
 
-        function rebuildmenu() {
-            holder = document.getElementById('placeholder').childNodes[0];
-            for (var x = 0; x < holder.rows.length; x++) {
-                var c = holder.rows[x].cells[0];
-                var title = c.childNodes[0].innerHTML;
-                var fileExtension = title.substring(title.lastIndexOf(".") + 1, title.length);
 
-                if (arrayContains(fileExtension.toLowerCase(), filter)) {
-                    continue;
-                }
-                if (isPartFile(fileExtension)) {
-                    continue;
-                }
-                addEntry(c.childNodes[0].innerHTML, c.childNodes[0].href);
-            }
+						<style type="text/css" media="screen">
+							@import "iui/iui.css";
 
-            window.holder = holder;
-        }
+						</style>
 
-        function addEntry(title, url) {
-            var fileExtension = title.substring(title.lastIndexOf(".") + 1, title.length);
-            var h = document.getElementById('home');
+						<script type="text/javascript">
+							var filter = ["zip", "rar", "7zip", "7z", "sfv", "md5", "nfo", "txt", "dll", "tmp", "exe", "BPres", "sfk", "ini", "cer", "jar", "php", "apk", "lnk", "css", "dat", "dat2", "log", "vsix", "msi", "cab",
+								"fxml", "java", "js", "class", "html", "iso"];
 
-            h.innerHTML += "<li><a href=\"" + url + "\" target=\"_self\">" + title + "</a></li>";
-        }
+							function arrayContains(needle, arrhaystack) {
 
-        addEventListener("load", rebuildmenu, false);
-    </script>
+								return (arrhaystack.indexOf(needle) > -1);
+							}
 
-    <script type="application/x-javascript" src="iui/iui.js"></script>
+							function isPartFile(extension) {
+								var re = /^r\d{2,3}$/;
+								if (extension.match(re)) {
+									return true;
+								} else {
+									return false;
+								}
+							}
 
-    <script type="text/javascript">
-        pageHistory.push({
-            title: "back";
-        })
-    </script>
-</head>
+							function rebuildmenu() {
+								holder = document.getElementById('placeholder').childNodes[0];
+								for (var x = 0; x < holder.rows.length; x++) {
+									var c = holder.rows[x].cells[0];
+									var title = c.childNodes[0].innerHTML;
+									var fileExtension = title.substring(title.lastIndexOf(".") + 1, title.length);
 
-<body class="filebrowser">
-    <div class="toolbar">
-        <a class="backButton" href="/" target="_self">Home</a>
+									if (arrayContains(fileExtension.toLowerCase(), filter)) {
+										continue;
+									}
+									if (isPartFile(fileExtension)) {
+										continue;
+									}
+									addEntry(c.childNodes[0].innerHTML, c.childNodes[0].href);
+								}
 
-        <h1 id="pageTitle">[currentdir]</h1>
-        <a href="index.html" target="_self" class="button">Home</a>
-    </div>
-    <ul id="home" title="[currentdir]" selected="true">
-    </ul>
+								window.holder = holder;
+							}
 
-    <table id="placeholder">[currentfiles]</table>
-</body>
+							function addEntry(title, url) {
+								var fileExtension = title.substring(title.lastIndexOf(".") + 1, title.length);
+								var h = document.getElementById('home');
+
+								h.innerHTML += "<li><a href=\"" + url + "\" target=\"_self\">" + title + "</a></li>";
+							}
+
+							addEventListener("load", rebuildmenu, false);
+						</script>
+
+						<script type="application/x-javascript" src="iui/iui.js"></script>
+
+						<script type="text/javascript">
+							pageHistory.push({
+								title: "back";
+							})
+						</script>
+	</head>
+
+	<body class="filebrowser">
+		<div class="toolbar">
+			<a class="backButton" href="/" target="_self">Home</a>
+
+			<h1 id="pageTitle">[currentdir]</h1>
+			<a href="index.html" target="_self" class="button">Home</a>
+		</div>
+		<ul id="home" title="[currentdir]" selected="true">
+		</ul>
+
+		<table id="placeholder">[currentfiles]</table>
+	</body>
 
 </html>
