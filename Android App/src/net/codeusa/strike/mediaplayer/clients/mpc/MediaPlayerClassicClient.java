@@ -194,4 +194,27 @@ public class MediaPlayerClassicClient extends MediaClient {
 		return null;
 	}
 
+	@Override
+	public void volumeUP() {
+	sendCommand(907);
+		
+	}
+
+	@Override
+	public void volumeDown() {
+	sendCommand(908);
+		
+	}
+
+	@Override
+	public void mute() {
+		sendCommand(909);
+	}
+
+	@Override
+	public void seek() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

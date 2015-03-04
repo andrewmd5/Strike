@@ -58,6 +58,26 @@ public class JSEngine {
 	}
 	
 	@JavascriptInterface
+	public void mute() {
+		Settings.getClient().mute();
+	}
+	
+	@JavascriptInterface
+	public void volumeUP() {
+		Settings.getClient().volumeUP();
+	}
+	
+	@JavascriptInterface
+	public void volumeDown() {
+		Settings.getClient().volumeDown();
+	}
+	
+	@JavascriptInterface
+	public void seek() {
+		Settings.getClient().seek();
+	}
+	
+	@JavascriptInterface
 	public void startNotfication() {
 
 		this.notfication.notficationUpdate();
