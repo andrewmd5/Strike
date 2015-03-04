@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 import net.codeusa.strike.R;
 import net.codeusa.strike.StrikeActivity;
-import net.codeusa.strike.mediaplayer.clients.MPCClient;
+import net.codeusa.strike.mediaplayer.clients.mpc.MediaPlayerClassicClient;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -23,7 +23,7 @@ public class NotficationService {
 	private Notification notification;
 	private boolean stopNotfications;
 	NotificationManager notificationManager;
-	MPCClient client = new MPCClient();
+	MediaPlayerClassicClient client = new MediaPlayerClassicClient();
 
 	public Notification getNotification() {
 		return this.notification;
@@ -134,15 +134,15 @@ public class NotficationService {
 		protected Double doInBackground(final String... params) {
 			switch (params[0]) {
 			case "prev":
-				client.sendCommand(921);
+				client.previous();
 				break;
 
 			case "next":
-				client.sendCommand(920);
+				client.next();
 				break;
 
 			case "state":
-				client.sendCommand(889);
+				client.play();
 				break;
 			}
 

@@ -1,4 +1,4 @@
-package net.codeusa.strike.mediaplayer.clients;
+package net.codeusa.strike.mediaplayer.clients.mpc;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -10,6 +10,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 
+import net.codeusa.strike.mediaplayer.clients.MediaClient;
 import net.codeusa.strike.settings.Settings;
 
 import org.apache.http.HttpResponse;
@@ -21,18 +22,77 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-public class MPCClient {
+public class MediaPlayerClassicClient extends MediaClient {
+
+	private static int PLAY_PAUSE = 889;
+	private static int NEXT = 920;
+	private static int PREV = 921;
 
 	private String cachedTitle = "";
 	private Bitmap cachedScreenGrab;
 	private static String status;
+
+	@Override
+	public void play() {
+		sendCommand(PLAY_PAUSE);
+
+	}
+
+	@Override
+	public void pause() {
+		sendCommand(PLAY_PAUSE);
+
+	}
+
+	@Override
+	public void stop() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void next() {
+		sendCommand(NEXT);
+
+	}
+
+	@Override
+	public void previous() {
+		sendCommand(PREV);
+
+	}
+
+	@Override
+	public void sendCommand(final Integer... id) {
+		final String url = Settings.getMPCServer()
+				+ "/command.html?wm_command=" + id;
+		HttpResponse response = null;
+
+		try {
+			// Create http client object to send request to server
+			final HttpClient client = new DefaultHttpClient();
+			// Create URL string
+
+			// Create Request to server and get response
+			final HttpGet httpget = new HttpGet();
+			httpget.setURI(new URI(url));
+			response = client.execute(httpget);
+		} catch (final URISyntaxException e) {
+			e.printStackTrace();
+		} catch (final ClientProtocolException e) {
+			// TODO Auto-generated catch block
+		} catch (final IOException e) {
+			// TODO Auto-generated catch block
+		}
+
+	}
 
 	public String getStatus() {
 		return status;
 	}
 
 	public void setStatus(final String status) {
-		MPCClient.status = status;
+		MediaPlayerClassicClient.status = status;
 	}
 
 	public String getTitle() {
@@ -92,31 +152,8 @@ public class MPCClient {
 
 	}
 
-	public void sendCommand(final int command) {
-		final String url = Settings.getMPCServer()
-				+ "/command.html?wm_command=" + command;
-		HttpResponse response = null;
-
-		try {
-			// Create http client object to send request to server
-			final HttpClient client = new DefaultHttpClient();
-			// Create URL string
-
-			// Create Request to server and get response
-			final HttpGet httpget = new HttpGet();
-			httpget.setURI(new URI(url));
-			response = client.execute(httpget);
-		} catch (final URISyntaxException e) {
-			e.printStackTrace();
-		} catch (final ClientProtocolException e) {
-			// TODO Auto-generated catch block
-		} catch (final IOException e) {
-			// TODO Auto-generated catch block
-		}
-	}
-
 	public String getMPCStatus() throws URISyntaxException,
-			ClientProtocolException, IOException {
+	ClientProtocolException, IOException {
 		final URL url = new URL(Settings.getMPCServer() + "/status.html");
 		final DefaultHttpClient client = new DefaultHttpClient();
 		final HttpGet request = new HttpGet(url.toURI());
@@ -147,4 +184,5 @@ public class MPCClient {
 			}
 		}
 	}
+
 }
