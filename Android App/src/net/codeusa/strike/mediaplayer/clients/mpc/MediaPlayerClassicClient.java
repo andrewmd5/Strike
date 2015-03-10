@@ -9,8 +9,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import net.codeusa.strike.mediaplayer.clients.MediaClient;
 import net.codeusa.strike.settings.Settings;
@@ -29,6 +27,7 @@ public class MediaPlayerClassicClient extends MediaClient {
 	private static int PLAY_PAUSE = 889;
 	private static int NEXT = 920;
 	private static int PREV = 921;
+	private static int STOP = 890;
 
 	private String cachedTitle = "";
 	private Bitmap cachedScreenGrab;
@@ -52,7 +51,7 @@ public class MediaPlayerClassicClient extends MediaClient {
 
 	@Override
 	public void stop() {
-		// TODO Auto-generated method stub
+		sendCommand(STOP);
 
 	}
 
@@ -68,8 +67,7 @@ public class MediaPlayerClassicClient extends MediaClient {
 
 	}
 
-
-	public void sendCommand(int id) {
+	public void sendCommand(final int id) {
 		final String url = Settings.getMPCServer()
 				+ "/command.html?wm_command=" + String.valueOf(id);
 		HttpResponse response = null;
@@ -95,26 +93,26 @@ public class MediaPlayerClassicClient extends MediaClient {
 
 	public void setStatusContent() {
 		String mpcStatus = getMPCStatus();
-		int ignore_mpc = mpcStatus.lastIndexOf(" - Media Player Classic");
-		 if( ignore_mpc != -1 ) {
+		final int ignore_mpc = mpcStatus.lastIndexOf(" - Media Player Classic");
+		if (ignore_mpc != -1) {
 			mpcStatus = mpcStatus.replace(" - Media Player Classic", "");
 		}
-		mpcStatus = mpcStatus.substring(mpcStatus.indexOf('(') + 1, mpcStatus.lastIndexOf(')'));
- 
-		statusContent = mpcStatus.replaceAll("\"", "").split(",");
-		title = statusContent[0];
-		currentDuration = statusContent[3];
-		totalDuration = statusContent[5];
-		playBackStatus = statusContent[1];
+		mpcStatus = mpcStatus.substring(mpcStatus.indexOf('(') + 1,
+				mpcStatus.lastIndexOf(')'));
+
+		this.statusContent = mpcStatus.replaceAll("\"", "").split(",");
+		this.title = this.statusContent[0];
+		this.currentDuration = this.statusContent[3];
+		this.totalDuration = this.statusContent[5];
+		this.playBackStatus = this.statusContent[1];
 	}
-	
 
 	public String getTitle() {
-		return title;
+		return this.title;
 	}
 
-	public String getPlayBackStatus() {	
-		return playBackStatus;
+	public String getPlayBackStatus() {
+		return this.playBackStatus;
 	}
 
 	public int getPlaybackDrawable() {
@@ -128,8 +126,8 @@ public class MediaPlayerClassicClient extends MediaClient {
 	}
 
 	public String getFormattedNotfication() {
-		final String text = currentDuration + "/" + totalDuration + " - "
-				+ playBackStatus;
+		final String text = this.currentDuration + "/" + this.totalDuration
+				+ " - " + this.playBackStatus;
 		return text;
 	}
 
@@ -157,7 +155,7 @@ public class MediaPlayerClassicClient extends MediaClient {
 
 	}
 
-	private String getMPCStatus()  {
+	private String getMPCStatus() {
 		try {
 			final URL url = new URL(Settings.getMPCServer() + "/status.html");
 			final DefaultHttpClient client = new DefaultHttpClient();
@@ -166,7 +164,8 @@ public class MediaPlayerClassicClient extends MediaClient {
 
 			Reader reader = null;
 			try {
-				reader = new InputStreamReader(response.getEntity().getContent());
+				reader = new InputStreamReader(response.getEntity()
+						.getContent());
 
 				final StringBuffer sb = new StringBuffer();
 				{
@@ -196,14 +195,14 @@ public class MediaPlayerClassicClient extends MediaClient {
 
 	@Override
 	public void volumeUp() {
-	sendCommand(907);
-		
+		sendCommand(907);
+
 	}
 
 	@Override
 	public void volumeDown() {
-	sendCommand(908);
-		
+		sendCommand(908);
+
 	}
 
 	@Override
@@ -212,9 +211,14 @@ public class MediaPlayerClassicClient extends MediaClient {
 	}
 
 	@Override
-	public void seek(int seconds) {
-		//todo
-		
+	public void seek(final int seconds) {
+		// todo
+
+	}
+
+	@Override
+	public void fullScreen() {
+		sendCommand(830);
 	}
 
 }

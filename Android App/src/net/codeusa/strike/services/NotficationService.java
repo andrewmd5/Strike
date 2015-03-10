@@ -1,6 +1,5 @@
 package net.codeusa.strike.services;
 
-
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -31,15 +30,15 @@ public class NotficationService {
 	public void createNotification(final String title, final String duration,
 			final Bitmap snapShot) {
 
-		//register intents
+		// register intents
 		StrikeActivity.activity.registerReceiver(this.receiver,
 				new IntentFilter("net.codeusa.strike.PREV_VIDEO"));
 		StrikeActivity.activity.registerReceiver(this.receiver,
 				new IntentFilter("net.codeusa.strike.NEXT_VIDEO"));
 		StrikeActivity.activity.registerReceiver(this.receiver,
 				new IntentFilter("net.codeusa.strike.MEDIA_STATE"));
-		int playBackIcon = client.getPlaybackDrawable();
-		
+		final int playBackIcon = this.client.getPlaybackDrawable();
+
 		final Intent previousIntent = new Intent();
 		previousIntent.setAction("net.codeusa.strike.PREV_VIDEO");
 		final PendingIntent pendingPrev = PendingIntent.getBroadcast(
@@ -57,29 +56,24 @@ public class NotficationService {
 		final PendingIntent pendingPlayback = PendingIntent.getBroadcast(
 				StrikeActivity.activity.getApplicationContext(), 12345,
 				playbackIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-		
-		
 
 		this.notification = new Notification.Builder(StrikeActivity.activity)
-				// Show controls on lock screen even when user hides sensitive
-				// content.
-				.setOngoing(true)
-				.setVisibility(Notification.VISIBILITY_PUBLIC)
-				.setSmallIcon(R.drawable.ic_launcher)
-				.addAction(android.R.drawable.ic_media_previous, "Previous",
-						pendingPrev)
-				.addAction(playBackIcon, "Pause",
-						pendingPlayback)
-				.addAction(android.R.drawable.ic_media_next, "Next",
-						pendingNext)
-				// Apply the media style template
-				.setStyle(
-						new Notification.MediaStyle()
-								.setShowActionsInCompactView(0, 1, 2)
-								.setMediaSession(null)).setContentTitle(title)
-				.setContentText(duration).setLargeIcon(snapShot).build();
-		
-		
+		// Show controls on lock screen even when user hides sensitive
+		// content.
+		.setOngoing(true)
+		.setVisibility(Notification.VISIBILITY_PUBLIC)
+		.setSmallIcon(R.drawable.ic_launcher)
+		.addAction(android.R.drawable.ic_media_previous, "Previous",
+				pendingPrev)
+				.addAction(playBackIcon, "Pause", pendingPlayback)
+						.addAction(android.R.drawable.ic_media_next, "Next",
+								pendingNext)
+								// Apply the media style template
+								.setStyle(
+										new Notification.MediaStyle()
+										.setShowActionsInCompactView(0, 1, 2)
+										.setMediaSession(null)).setContentTitle(title)
+										.setContentText(duration).setLargeIcon(snapShot).build();
 
 		this.notificationManager = (NotificationManager) StrikeActivity.activity
 				.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -87,8 +81,6 @@ public class NotficationService {
 		this.notificationManager.notify(6939, this.notification);
 
 	}
-
-	
 
 	public void notficationUpdate() {
 		final ScheduledExecutorService scheduleTaskExecutor = Executors
@@ -101,23 +93,24 @@ public class NotficationService {
 				if (isStopNotfications()) {
 					scheduleTaskExecutor.shutdown();
 				}
-				
-				
-				
-				if (client == null) {
-					client = new MediaPlayerClassicClient();
-					net.codeusa.strike.settings.Settings.client = client;
-					
+
+				if (NotficationService.this.client == null) {
+					NotficationService.this.client = new MediaPlayerClassicClient();
+					net.codeusa.strike.settings.Settings
+							.setClient(NotficationService.this.client);
+
 				}
-				client.setStatusContent();
-				final String title = client.getTitle();
-				final String text = client.getFormattedNotfication();
-				final Bitmap icon = client.getScreenGrab(title);
-				
+				NotficationService.this.client.setStatusContent();
+				final String title = NotficationService.this.client.getTitle();
+				final String text = NotficationService.this.client
+						.getFormattedNotfication();
+				final Bitmap icon = NotficationService.this.client
+						.getScreenGrab(title);
+
 				createNotification(title, text, icon);
-				
+
 			}
-		}, 0, 500, TimeUnit.MILLISECONDS);
+		}, 0, 900, TimeUnit.MILLISECONDS);
 	}
 
 	public boolean isStopNotfications() {
@@ -133,15 +126,15 @@ public class NotficationService {
 		protected Double doInBackground(final String... params) {
 			switch (params[0]) {
 			case "prev":
-				client.previous();
+				NotficationService.this.client.previous();
 				break;
 
 			case "next":
-				client.next();
+				NotficationService.this.client.next();
 				break;
 
 			case "state":
-				client.play();
+				NotficationService.this.client.play();
 				break;
 			}
 

@@ -1,5 +1,7 @@
 package net.codeusa.strike;
 
+import java.net.URLEncoder;
+
 import net.codeusa.strike.js.JSEngine;
 import net.codeusa.strike.services.NotficationService;
 import net.codeusa.strike.settings.Settings;
@@ -15,6 +17,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +25,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class StrikeActivity extends ActionBarActivity {
 
@@ -43,7 +47,7 @@ public class StrikeActivity extends ActionBarActivity {
 		setContentView(R.layout.activity_strike);
 		if (savedInstanceState == null) {
 			getSupportFragmentManager().beginTransaction()
-			.add(R.id.container, new StrikeFragment()).commit();
+					.add(R.id.container, new StrikeFragment()).commit();
 			getSupportActionBar().hide();
 		} else {
 			getSupportActionBar().hide();
@@ -72,10 +76,17 @@ public class StrikeActivity extends ActionBarActivity {
 		remoteView.clearCache(true);
 		remoteView.getSettings().setAppCacheEnabled(true);
 		remoteView.getSettings().setDatabaseEnabled(true);
-		remoteView.setWebChromeClient(new WebChromeClient());
+		remoteView.getSettings().setJavaScriptEnabled(true);
+		remoteView.setWebChromeClient(new WebChromeClient() {
+			@Override
+			public void onConsoleMessage(final String message,
+					final int lineNumber, final String sourceID) {
+				Log.d("MyApplication", message + " -- From line " + lineNumber
+						+ " of " + sourceID);
+			}
+		});
 		remoteView.getSettings().setDomStorageEnabled(true);
 
-		remoteView.getSettings().setJavaScriptEnabled(true);
 		remoteView.getSettings().setUserAgentString("StrikeDroid/4");
 		// remoteView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
 		remoteView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -107,6 +118,10 @@ public class StrikeActivity extends ActionBarActivity {
 					final int errorCode, final String description,
 					final String failingUrl) {
 
+				Toast.makeText(
+						view.getContext(),
+						"Your Internet Connection May not be active Or "
+								+ description, Toast.LENGTH_LONG).show();
 				final String html = "<html><body bgcolor=\"#09343E\"><table width=\"100%\" height=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">"
 						+ "<tr>"
 						+ "<td><div align=\"center\"><font color=\"white\" size=\"20pt\">Error Loading, Please Try Again.</font></div></td>"
@@ -130,25 +145,25 @@ public class StrikeActivity extends ActionBarActivity {
 
 				alert.setPositiveButton("Ok",
 						new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(final DialogInterface dialog,
-									final int whichButton) {
-								view.getContext()
-										.startActivity(
-												new Intent(
-														Intent.ACTION_VIEW,
-														Uri.parse("https://github.com/Codeusa/Strike/issues/new")));
-							}
-						});
+					@Override
+					public void onClick(final DialogInterface dialog,
+							final int whichButton) {
+						view.getContext()
+						.startActivity(
+								new Intent(
+										Intent.ACTION_VIEW,
+										Uri.parse("https://github.com/Codeusa/Strike/issues/new")));
+					}
+				});
 
 				alert.setNegativeButton("Cancel",
 						new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(final DialogInterface dialog,
-									final int whichButton) {
-								// Canceled.
-							}
-						});
+					@Override
+					public void onClick(final DialogInterface dialog,
+							final int whichButton) {
+						// Canceled.
+					}
+				});
 
 				alert.show();
 				view.loadUrl("file:///android_asset/landing.html");
@@ -156,9 +171,14 @@ public class StrikeActivity extends ActionBarActivity {
 
 			@Override
 			public boolean shouldOverrideUrlLoading(final WebView view,
-					final String url) {
-
-				if (url.contains(Settings.getMPCServer())
+					String url) {
+				//override resources that need to be remote
+		
+			 if (url.contains("strike://")) {
+					url = url.replace("strike://", "file:///android_asset/");
+					view.loadUrl(url);
+					return false;
+				} else if (url.contains(Settings.getMPCServer())
 						|| url.contains(Settings.getTorrentClient())) {
 					view.loadUrl(url);
 					return false;
@@ -193,16 +213,16 @@ public class StrikeActivity extends ActionBarActivity {
 		remoteView.addJavascriptInterface(jsEngine, "strike");
 		remoteView.getSettings().setDomStorageEnabled(true);
 		remoteView
-				.loadUrl(Settings.getLastURL() == null ? "file:///android_asset/landing.html"
-						: Settings.getLastURL());
+		.loadUrl(Settings.getLastURL() == null ? "file:///android_asset/landing.html"
+				: Settings.getLastURL());
 
 	}
 
 	@Override
 	public void onBackPressed() {
-		notification.setStopNotfications(true);
-		 NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-		 mNotificationManager.cancelAll();
+		this.notification.setStopNotfications(true);
+		final NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+		mNotificationManager.cancelAll();
 		android.os.Process.killProcess(android.os.Process.myPid());
 		return;
 	}

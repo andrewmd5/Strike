@@ -64,33 +64,33 @@
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
                 <li class="sidebar-brand">
-                   <a onclick="window.location='' + window.strike.getMPCServer(); return false;" href="#">
+                   <a href="remote.html">
                         <h1>Strike</h1>
                     </a>
                 </li>
                 <li>
-                        <a onclick="window.location='' + window.strike.getMPCServer(); return false;" href="#"><i class="fa fa-keyboard-o"></i>Remote Control</a>
+                        <a href="remote.html"><i class="fa fa-keyboard-o"></i>Remote Control</a>
                 </li>
                 <li>
-                      <a onclick="window.location='' + window.strike.getTorrentClient(); return false;" href="#"><i class="fa fa-magnet"></i>Torrents</a>
+                        <a href="torrent.html"><i class="fa fa-magnet"></i>Torrents</a>
                 </li>
                 <li>
-                      <a onclick="window.location='' + window.strike.getMPCServer(); return false;" href="#"><i class="fa fa-play-circle"></i>View Player</a>
+                      <a href="player.html"><i class="fa fa-play-circle"></i>View Player</a>
                 </li>
                 <li>
-                      <a onclick="window.location='' + window.strike.getMPCServer(); return false;" href="#"><i class="fa fa-files-o"></i>File Browser</a>
+                      <a href="browser.html"><i class="fa fa-files-o"></i>File Browser</a>
                 </li>
                 <li>
-                     <a onclick="window.location='' + window.strike.getMPCServer(); return false;" href="#"><i class="fa fa-info-circle"></i>Info</a>
+                     <a href="info.html"><i class="fa fa-info-circle"></i>Info</a>
                 </li>
                 <li>
-                      <a onclick="window.location='' + window.strike.getMPCServer(); return false;" href="#"><i class="fa fa-heartbeat"></i>Server Health</a>
+                      <a href="#"><i class="fa fa-heartbeat"></i>Server Health</a>
                 </li>
                 <li>
-                 <a href="file:///android_asset/landing.html"><i class="fa fa-user"></i>About</a>
+                 <a href="landing.html"><i class="fa fa-user"></i>About</a>
                 </li>
                 <li class="active">
-                     <a href="file:///android_asset/settings.html"><i class="fa fa-cog"></i>Settings</a>
+                     <a href="settings.html"><i class="fa fa-cog"></i>Settings</a>
                 </li>
 
             </ul>
@@ -130,9 +130,13 @@
             </div>
             <p>Torrent IP and Port</p>
 
-             <input class="form-control input-lg" type="text" id="deluge" placeholder="http://media.server.net:3542" required>
+             <input class="form-control input-lg" type="text" id="deluge" placeholder="http://media.server.net:3542">
             </p><hr class="col-md-12">
 
+			 <p>Default Browser Directory</p>
+
+             <input class="form-control input-lg" type="text" id="browser" placeholder="C:/media/" required>
+            </p><hr class="col-md-12">
 
             <button id="save" type="submit" class="col-sm-3 btn btn-success btn-lg" contenteditable="false">Save Setting</button>
             <div class="span9"></div>

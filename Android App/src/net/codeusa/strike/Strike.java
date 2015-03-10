@@ -36,7 +36,7 @@ public class Strike extends Application {
 					: (trackerId == TrackerName.GLOBAL_TRACKER) ? analytics
 							.newTracker(R.xml.global_tracker) : analytics
 							.newTracker(R.xml.ecommerce_tracker);
-							this.mTrackers.put(trackerId, t);
+			this.mTrackers.put(trackerId, t);
 
 		}
 		return this.mTrackers.get(trackerId);

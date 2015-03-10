@@ -91,7 +91,7 @@ public class Utils {
 			}
 
 		} catch (final MalformedURLException e) {
-			e.printStackTrace();
+			return false;
 		}
 
 		return false;
@@ -105,9 +105,13 @@ public class Utils {
 			final BufferedReader bufferedReader = new BufferedReader(isr);
 			String line;
 			while ((line = bufferedReader.readLine()) != null) {
-				final String[] urls = line.split(",");
-				Settings.setMPCServer(urls[0]);
-				Settings.setTorrentClient(urls[1]);
+				final String[] settings = line.split(",");
+				System.out.println(settings.length);
+				Settings.setMPCServer(settings[0]);
+				Settings.setTorrentClient(settings[1]);
+				
+				Settings.setBrowserPath(settings[2]);
+				
 			}
 
 		} catch (final FileNotFoundException e) {
@@ -124,7 +128,7 @@ public class Utils {
 		Bitmap x;
 
 		final HttpURLConnection connection = (HttpURLConnection) new URL(url)
-				.openConnection();
+		.openConnection();
 		connection.connect();
 		final InputStream input = connection.getInputStream();
 

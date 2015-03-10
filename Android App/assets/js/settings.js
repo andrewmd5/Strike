@@ -1,3 +1,4 @@
+
 window.isValidURL = (function () {// wrapped in self calling function to prevent global pollution
 
     //URL pattern based on rfc1738 and rfc3986
@@ -60,52 +61,76 @@ function isBlank(str) {
 }
 
 
-function save(clicked) { //code smell 
-    var mpcserver = getValue("mpc");
-    var delugeserver = getValue("deluge");
-    var errors = false;
-    if (isBlank(mpcserver)) {
+function checkMPC(mpcserver) {
+	if (isBlank(mpcserver)) {
         BootstrapDialog.alert('Please enter a host for MPC');
         return false;
     }
-
-    if (isBlank(delugeserver)) {
-        BootstrapDialog.alert('Please enter a host for Deluge');
-        return false;
-    }
-
-    if (!window.isValidURL(mpcserver)) {
+	if (!window.isValidURL(mpcserver)) {
         BootstrapDialog.alert('Please enter a valid URL for MPC');
         return false;
     }
+	return true;
+	
+}
 
-    if (!window.isValidURL(delugeserver)) {
+function checkTorrent(delugeserver) {
+	if (isBlank(delugeserver)) {
+        return false;
+    }
+	if (!window.isValidURL(delugeserver)) {
         BootstrapDialog.alert('Please enter a valid URL for Deluge');
         return false;
     }
-
-
+	return true;
+}
+function save(clicked) { //code smell 
+    var mpcserver = getValue("mpc");
+    var delugeserver = getValue("deluge");
+	var browserpath = getValue("browser");
+	  var errors = false;
+	  var skipTorrent = false;
+	if (!checkMPC(mpcserver)) {
+		return false;
+	}
+	if (!checkTorrent(delugeserver)) {
+		skipTorrent = true;
+	}
    var mpcStatus = window.strike.checkStatus(mpcserver);
-    var torrentStatus = window.strike.checkStatus(delugeserver);
-    if (mpcStatus.indexOf("false") > -1) {
+   if (mpcStatus.indexOf("false") > -1) {
         errors = true;
         sendError(1);
     }
+   if (!skipTorrent) {
+    var torrentStatus = window.strike.checkStatus(delugeserver);
+    
     if (torrentStatus.indexOf("false") > -1) {
         errors = true;
         sendError(2);
+    }
+   }
+   
+	if (isBlank(browserpath)) {
+		  BootstrapDialog.alert('Please enter a path for the browser to default to');
+		  errors = true;
+        return false;
     }
     if (errors === true) {
         return false;
     }
 	
     localStorage.mpc = btoa(mpcserver);
+	if (isBlank(delugeserver)) {
+        localStorage.deluge = btoa("notset");
+    } else {
     localStorage.deluge = btoa(delugeserver);
+	}
+	localStorage.browser = btoa(browserpath);
 	if (clicked === true) {
 		 location.reload();
 	} else {
 		BootstrapDialog.alert('Your settings are valid.');
-		window.strike.saveSettings(mpcserver + ',' + delugeserver);
+		window.strike.saveSettings(mpcserver + ',' + delugeserver + "," + browserpath);
 
 	}
    
@@ -131,7 +156,12 @@ function load() {
     var mpcurl = atob(localStorage.mpc);
     $('#mpc').val(mpcurl);
     var delugeurl = atob(localStorage.deluge);
+	if (delugeurl === "notset") {
+		delugeurl = "";
+	}
     $('#deluge').val(delugeurl);
+	 var browserpath = atob(localStorage.browser);
+    $('#browser').val(browserpath);
     save(false);
 
 }

@@ -4,6 +4,7 @@
 
 		<meta HTTP-EQUIV="content-type" CONTENT="text/html; charset=UTF-8">
 		<link href="css/bootstrap.min.css" rel="stylesheet">
+			<script src="js/jquery-1.11.0.js"></script>
 		<link href="css/style.css" rel="stylesheet">
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -421,21 +422,21 @@
 			<div id="sidebar-wrapper">
 				<ul class="sidebar-nav">
 					<li class="sidebar-brand">
-						<a href="index.html">
+						<a href="strike://remote.html">
 							<h1>Strike</h1>
 						</a>
 					</li>
 					<li>
-						<a href="index.html"><i class="fa fa-keyboard-o"></i>Remote Control</a>
+						<a href="strike://remote.html"><i class="fa fa-keyboard-o"></i>Remote Control</a>
 					</li>
 					<li>
-						<a onclick="window.location='' + window.strike.getTorrentClient(); return false;" href="#"><i class="fa fa-magnet"></i>Torrents</a>
+						<a href="strike://torrent.html"><i class="fa fa-magnet"></i>Torrents</a>
 					</li>
 					<li class="active">
 						<a href="player.html"><i class="fa fa-play-circle"></i>View Player</a>
 					</li>
 					<li>
-						<a href="browser.html?path=C:%5CMedia#_home"><i class="fa fa-files-o"></i>File Browser</a>
+						<a href="browser.html"><i class="fa fa-files-o"></i>File Browser</a>
 					</li>
 					<li>
 						<a href="info.html"><i class="fa fa-info-circle"></i>Info</a>
@@ -444,10 +445,10 @@
 						<a href="#"><i class="fa fa-heartbeat"></i>Server Health</a>
 					</li>
 					<li>
-						<a href="about.html"><i class="fa fa-user"></i>About</a>
+						<a href="strike://landing.html"><i class="fa fa-user"></i>About</a>
 					</li>
 					<li>
-						<a href="settings.html"><i class="fa fa-cog"></i>Settings</a>
+						<a href="strike://settings.html"><i class="fa fa-cog"></i>Settings</a>
 					</li>
 
 				</ul>
@@ -560,9 +561,6 @@
 										</table>
 									</td>
 								</tr>
-								<button id="back" name="back" class="btn btn-primary col-xs-12 col-sm-2 col-md-3"
-										onclick="location.href = 'remote.html';">Back
-								</button>
 							</table>
 						</td>
 						<td id="rightside"></td>
@@ -579,6 +577,13 @@
 
 
 		</div>
+		<!-- Menu Toggle Script -->
+<script>
+    $("#menu-toggle").click(function (e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+</script>
 	</body>
 
 </html>
