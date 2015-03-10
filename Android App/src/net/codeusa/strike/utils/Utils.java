@@ -11,6 +11,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.net.UnknownHostException;
 
 import net.codeusa.strike.StrikeActivity;
@@ -75,11 +76,17 @@ public class Utils {
 
 	public static boolean isUP(final String host) {
 		try {
-			final URL url = new URL(host);
+		
 			InputStream i = null;
+			URL url = new URL(host);
+			URLConnection con = url.openConnection();
+			con.setConnectTimeout(500);
+			con.setReadTimeout(500);
 
 			try {
-				i = url.openStream();
+				
+				i = con.getInputStream();
+				
 			} catch (final UnknownHostException ex) {
 				return false;
 			} catch (final IOException e) {
@@ -90,7 +97,7 @@ public class Utils {
 				return true;
 			}
 
-		} catch (final MalformedURLException e) {
+		} catch (final IOException e) {
 			return false;
 		}
 
